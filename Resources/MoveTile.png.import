@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/MoveTile.png-9ab614477914a1fac38677e2a2e5685b.image"
+
+[deps]
+
+source_file="res://Resources/MoveTile.png"
+dest_files=[ "res://.import/MoveTile.png-9ab614477914a1fac38677e2a2e5685b.image" ]
+
+[params]
+

@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/MoveTileEnemy.png-f1b2a3b96409fd46ed42efa6a296a18b.image"
+
+[deps]
+
+source_file="res://Resources/MoveTileEnemy.png"
+dest_files=[ "res://.import/MoveTileEnemy.png-f1b2a3b96409fd46ed42efa6a296a18b.image" ]
+
+[params]
+

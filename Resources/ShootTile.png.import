@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ShootTile.png-4d6679a5e44db0f1a8515542a0b9e50c.image"
+
+[deps]
+
+source_file="res://Resources/ShootTile.png"
+dest_files=[ "res://.import/ShootTile.png-4d6679a5e44db0f1a8515542a0b9e50c.image" ]
+
+[params]
+

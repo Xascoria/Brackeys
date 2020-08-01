@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/ShoottileEnemy.png-ece8b51df31b6addb1c0433532bd3bcd.image"
+
+[deps]
+
+source_file="res://Resources/ShoottileEnemy.png"
+dest_files=[ "res://.import/ShoottileEnemy.png-ece8b51df31b6addb1c0433532bd3bcd.image" ]
+
+[params]
+
