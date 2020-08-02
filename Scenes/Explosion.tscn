@@ -1,0 +1,63 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Scripts/Explosion.gd" type="Script" id=1]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0, 0.185185, 0.822222, 1 )
+colors = PoolColorArray( 1, 0.976349, 0.757813, 1, 0.916016, 0.801723, 0.125237, 1, 0.901151, 0.276052, 0.120539, 1, 0.896484, 0.119064, 0.119064, 1 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+
+[sub_resource type="Curve" id=3]
+min_value = -400.0
+max_value = 400.0
+_data = [ Vector2( 0, 400 ), 0.0, 0.0, 0, 0, Vector2( 0.0759494, 266.364 ), -914.049, -1236.52, 0, 0, Vector2( 1, -200 ), 1024.19, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
+
+[sub_resource type="Curve" id=5]
+max_value = 3.5
+_data = [ Vector2( 0.00632912, 0.613636 ), 0.0, 0.0, 0, 0, Vector2( 0.291139, 3.5 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.659091 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=6]
+curve = SubResource( 5 )
+
+[sub_resource type="ParticlesMaterial" id=7]
+emission_shape = 1
+emission_sphere_radius = 2.0
+flag_disable_z = true
+direction = Vector3( 0, 0, 0 )
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 80.0
+initial_velocity_random = 0.2
+angular_velocity = 25.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = -100.0
+linear_accel_random = 0.2
+linear_accel_curve = SubResource( 4 )
+scale = 2.0
+scale_random = 1.0
+scale_curve = SubResource( 6 )
+color_ramp = SubResource( 2 )
+
+[node name="Root" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Particles2D" type="Particles2D" parent="."]
+position = Vector2( 149.859, 118.287 )
+emitting = false
+amount = 500
+lifetime = 2.0
+one_shot = true
+preprocess = 0.2
+explosiveness = 0.75
+process_material = SubResource( 7 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
