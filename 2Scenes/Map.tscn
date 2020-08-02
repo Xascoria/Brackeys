@@ -162,5 +162,5 @@ tile_data = PoolIntArray( 0, 7, 0, 1, 7, 0, 2, 1, 0, 3, 7, 0, 4, 7, 0, 5, 7, 0, 
 
 [node name="PlayerYSort" type="YSort" parent="."]
 
-[node name="Timer" type="Timer" parent="."]
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[node name="TurnTimer" type="Timer" parent="."]
+[connection signal="timeout" from="TurnTimer" to="." method="_on_Timer_timeout"]
