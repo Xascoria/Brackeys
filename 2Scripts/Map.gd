@@ -32,15 +32,24 @@ func add_new_unit(ref_to_unit, coord):
 	units_matrix[coord[1]][coord[0]] = ref_to_unit
 	#Might need to change to standing position later on
 	ref_to_unit.position = calculate_pos(coord)
-	$PlayerYSort.add_child(ref_to_unit)
+	$UnitsYSort.add_child(ref_to_unit)
 
 #Make a tile clickable
 #Use to choose attack/move tile
-func add_tile_clickbox(coord):
+func add_tile_clickbox(action, coord):
 	
 	#Do not add if its not in bound
 	if not coord_in_bound(coord):
 		return
+	
+	#Use this part to set predictions square (tile id)
+	match(action):
+		#Friendly move
+		"fm":
+			pass
+		#Friendly attack
+		"fa":
+			pass
 	
 	var new_clickbox = clickbox.instance()
 	new_clickbox.position = calculate_pos(coord)
@@ -55,6 +64,10 @@ func tile_clicked_on(coord):
 
 #Make all tiles unclickable
 func clear_clickboxes():
+	#Wipe all the predictions squares images
+	for i in $Predictions.get_used_cells():
+		$Predictions.set_cellv(i, -1)
+	
 	for i in $PredictionsClickBox.get_children():
 		i.queue_free()
 
