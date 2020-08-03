@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://2Scenes/Map.tscn" type="PackedScene" id=1]
+[ext_resource path="res://2UI/LevelUI.tscn" type="PackedScene" id=2]
+[ext_resource path="res://2Scripts/Level.gd" type="Script" id=3]
+
+[node name="Root" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="Map" parent="." instance=ExtResource( 1 )]
+position = Vector2( 640, 204.107 )
+scale = Vector2( 1.4, 1.4 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UI" parent="CanvasLayer" instance=ExtResource( 2 )]
+[connection signal="turn_finished" from="Map" to="." method="_on_Map_turn_finished"]
+[connection signal="startTurn" from="CanvasLayer/UI" to="." method="_on_UI_startTurn"]

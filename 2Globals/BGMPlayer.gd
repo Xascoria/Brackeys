@@ -16,9 +16,5 @@ func change_song(ref_to_new_song):
 
 #Mute/Unmute music
 func mute_unmute():
-	if playing:
-		muted = true
-		stream_paused = true
-	else:
-		muted = false
-		stream_paused = false
+	stream_paused = not muted
+	muted = not muted
