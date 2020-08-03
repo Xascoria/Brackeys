@@ -1,4 +1,6 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://2UI/FriendlyUnitUI.gd" type="Script" id=1]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.0980392, 0.14902, 0.219608, 1 )
@@ -62,6 +64,7 @@ font_data = SubResource( 8 )
 margin_right = 160.0
 margin_bottom = 192.0
 custom_styles/panel = SubResource( 1 )
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -76,16 +79,41 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Info" type="Label" parent="InnerPanel"]
+[node name="Name" type="Label" parent="InnerPanel"]
 margin_left = 8.0
 margin_top = 12.0
 margin_right = 144.0
 margin_bottom = 66.0
 custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "Unit Name: Yeet
-Health: 3
-Bruh moment"
+text = "Name: EvaX"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Health" type="Label" parent="InnerPanel"]
+margin_left = 8.0
+margin_top = 12.0
+margin_right = 144.0
+margin_bottom = 66.0
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "
+Health: 3"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="State" type="Label" parent="InnerPanel"]
+margin_left = 8.0
+margin_top = 12.0
+margin_right = 144.0
+margin_bottom = 66.0
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "
+
+State: Chalice"
 __meta__ = {
 "_edit_use_anchors_": false
 }

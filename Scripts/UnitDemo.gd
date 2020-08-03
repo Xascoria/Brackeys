@@ -9,8 +9,9 @@ var grid_position = Vector2(0,0)
 var turn_num = 0
 var enemy_behaviour = [0,0,0]
 var turn_used = false
+var index = 0
 
-signal clicked(node_self)
+signal clicked(index)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -54,7 +55,8 @@ func get_predictions():
 			return [[],[]]
 
 func _on_Clickbox_pressed():
-	emit_signal("clicked", self)
+	print("box clicked")
+	emit_signal("clicked", index)
 
 func set_standing_position(new_position):
 	self.position = new_position - $StandingPos.position

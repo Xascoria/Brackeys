@@ -5,7 +5,7 @@ signal startTurn
 signal restart
 
 func _ready():
-	self.set_units_num(4,["Y", "M", "C", "A"], [true, true, false, false])
+	pass
 
 func _on_StartTurn_pressed():
 	$StartTurn.disabled = true
@@ -65,3 +65,10 @@ func set_units_num(num:int, names_array, enabled_array):
 signal unit_selected(index)
 func on_unit_button_pressed(index):
 	emit_signal("unit_selected", index)
+	
+func friendly_unit_details(unit_name, health, state, show_position):
+	$FriendlyUnit/UnitDetails.setup(unit_name, health, state)
+	$FriendlyUnit.rect_position = show_position
+	$FriendlyUnit.popup()
+
+

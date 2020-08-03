@@ -11,8 +11,8 @@ script = ExtResource( 3 )
 position = Vector2( 640, 204.107 )
 scale = Vector2( 1.4, 1.4 )
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="UI" parent="CanvasLayer" instance=ExtResource( 2 )]
+[node name="UI" parent="." instance=ExtResource( 2 )]
 [connection signal="turn_finished" from="Map" to="." method="_on_Map_turn_finished"]
-[connection signal="startTurn" from="CanvasLayer/UI" to="." method="_on_UI_startTurn"]
+[connection signal="unit_clicked" from="Map" to="." method="_on_Map_unit_clicked"]
+[connection signal="startTurn" from="UI" to="." method="_on_UI_startTurn"]
+[connection signal="unit_selected" from="UI" to="." method="_on_UI_unit_selected"]

@@ -30,9 +30,18 @@ func add_new_unit(ref_to_unit, coord):
 		return
 	
 	units_matrix[coord[1]][coord[0]] = ref_to_unit
+	$UnitsYSort.add_child(ref_to_unit)
+	
 	#Might need to change to standing position later on
 	ref_to_unit.position = calculate_pos(coord)
-	$UnitsYSort.add_child(ref_to_unit)
+	
+	###PLACEHOLDER CODE
+	###CHANGE WHEN ACTUAL UNIT ARE DESIGNED
+	ref_to_unit.connect("clicked", self, "unit_clicked")
+	
+signal unit_clicked(index)
+func unit_clicked(index):
+	emit_signal("unit_clicked", index)
 
 #Make a tile clickable
 #Use to choose attack/move tile
@@ -80,6 +89,7 @@ func calculate_pos(coord):
 func coord_in_bound(coord):
 	return coord[0] >= 0 and coord[0] < map_size and coord[1] >= 0 and coord[1] < map_size
 	
+#Tell level to start next turn
 signal turn_finished
 func turn_finished():
 	emit_signal("turn_finished")

@@ -7,12 +7,9 @@ func _ready():
 
 #Change to the song with a ref
 func change_song(ref_to_new_song):
-	#Do nothing if the song is muted
-	if muted:
-		return
-	
 	self.set_stream(ref_to_new_song)
-	self.play()
+	if not muted:
+		self.play()
 
 #Mute/Unmute music
 func mute_unmute():

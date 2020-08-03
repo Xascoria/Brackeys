@@ -1,6 +1,7 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://2UI/LevelUI.gd" type="Script" id=1]
+[ext_resource path="res://2UI/FriendlyUnitUI.tscn" type="PackedScene" id=2]
 [ext_resource path="res://2UI/Content.gd" type="Script" id=3]
 
 [sub_resource type="StyleBoxFlat" id=1]
@@ -339,6 +340,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="FriendlyUnit" type="Popup" parent="."]
+visible = true
+margin_right = 160.0
+margin_bottom = 192.0
+
+[node name="UnitDetails" parent="FriendlyUnit" instance=ExtResource( 2 )]
+
 [node name="StartTurn" type="Button" parent="."]
 margin_left = 1068.0
 margin_top = 668.0
@@ -365,4 +373,5 @@ __meta__ = {
 [connection signal="pressed" from="Popup/Content/Mute" to="." method="_on_Mute_pressed"]
 [connection signal="pressed" from="Popup/Content/Restart" to="." method="_on_Restart_pressed"]
 [connection signal="pressed" from="Popup/Content/Menu" to="." method="_on_Menu_pressed"]
+[connection signal="mouse_exited" from="FriendlyUnit" to="." method="_on_FriendlyUnit_mouse_exited"]
 [connection signal="pressed" from="StartTurn" to="." method="_on_StartTurn_pressed"]

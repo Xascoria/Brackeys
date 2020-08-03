@@ -16,7 +16,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Brackeys"
-run/main_scene="res://Scenes/LevelDemo.tscn"
+run/main_scene="res://2Scenes/Level.tscn"
 config/icon="res://icon.png"
 
 [autoload]
