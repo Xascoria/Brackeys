@@ -8,11 +8,13 @@
 script = ExtResource( 3 )
 
 [node name="Map" parent="." instance=ExtResource( 1 )]
-position = Vector2( 640, 204.107 )
+position = Vector2( 640, 230 )
 scale = Vector2( 1.4, 1.4 )
 
 [node name="UI" parent="." instance=ExtResource( 2 )]
 [connection signal="turn_finished" from="Map" to="." method="_on_Map_turn_finished"]
 [connection signal="unit_clicked" from="Map" to="." method="_on_Map_unit_clicked"]
+[connection signal="menu" from="UI" to="." method="_on_UI_menu"]
+[connection signal="restart" from="UI" to="." method="_on_UI_restart"]
 [connection signal="startTurn" from="UI" to="." method="_on_UI_startTurn"]
 [connection signal="unit_selected" from="UI" to="." method="_on_UI_unit_selected"]

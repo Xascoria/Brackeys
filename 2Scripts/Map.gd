@@ -32,11 +32,7 @@ func add_new_unit(ref_to_unit, coord):
 	units_matrix[coord[1]][coord[0]] = ref_to_unit
 	$UnitsYSort.add_child(ref_to_unit)
 	
-	#Might need to change to standing position later on
 	ref_to_unit.position = calculate_pos(coord)
-	
-	###PLACEHOLDER CODE
-	###CHANGE WHEN ACTUAL UNIT ARE DESIGNED
 	ref_to_unit.connect("clicked", self, "unit_clicked")
 	
 signal unit_clicked(index)
@@ -68,8 +64,10 @@ func add_tile_clickbox(action, coord):
 
 #A tile is clicked on
 #Process this info
+signal tile_clicked_on
 func tile_clicked_on(coord):
 	print(coord)
+	emit_signal("tile_clicked_on")
 
 #Make all tiles unclickable
 func clear_clickboxes():

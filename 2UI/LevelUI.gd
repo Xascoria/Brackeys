@@ -3,9 +3,14 @@ extends Control
 
 signal startTurn
 signal restart
+signal menu
 
 func _ready():
-	pass
+	#Check if music is muted
+	if BgmPlayer.muted:
+		$Popup/Content/Mute.text = "UNMUTE SOUND"
+	else:
+		$Popup/Content/Mute.text = "MUTE SOUND"
 
 func _on_StartTurn_pressed():
 	$StartTurn.disabled = true
@@ -28,7 +33,7 @@ func _on_Restart_pressed():
 	emit_signal("restart")
 
 func _on_Menu_pressed():
-	pass # Replace with function body.
+	emit_signal("menu")
 
 ###
 ### UI update methods
@@ -44,7 +49,7 @@ var unit_button_node = preload("res://2UI/UnitNode.tscn")
 #Store the unit_buttons refs
 var unit_buttons = []
 
-#This affect the units number on the sidebar
+#This affect the number of units shown on the sidebar
 func set_units_num(num:int, names_array, enabled_array):
 	#Set the panel sizes
 	#This part uses 720 as hard code value
@@ -66,8 +71,8 @@ signal unit_selected(index)
 func on_unit_button_pressed(index):
 	emit_signal("unit_selected", index)
 	
-func friendly_unit_details(unit_name, health, state, show_position):
-	$FriendlyUnit/UnitDetails.setup(unit_name, health, state)
+func friendly_unit_details(index, unit_name, health, state, show_position):
+	$FriendlyUnit/UnitDetails.setup(index, unit_name, health, state)
 	$FriendlyUnit.rect_position = show_position
 	$FriendlyUnit.popup()
 
