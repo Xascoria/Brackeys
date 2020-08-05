@@ -5,15 +5,18 @@ var index
 var unit_name
 var health
 var state = ""
+var friendly = false
+var order_list = []
+const type = "tank"
 
 func _ready():
 	pass
 
-func setup(index, unit_name, health, state):
+func setup(index, unit_name, health, order_list):
 	self.index = index
 	self.unit_name = unit_name
 	self.health = health
-	self.state = state
+	self.order_list = order_list
 
 signal clicked(index)
 func _on_KinematicBody2D_input_event(_viewport, event, _shape_idx):
@@ -26,3 +29,15 @@ func flip_to_direction(direction):
 		self.scale = Vector2(-1,1)
 	elif direction == "right":
 		self.scale = Vector2(1,1)
+
+func get_unit_order(turn_count):
+	if order_list[turn_count][0] == "attack":
+		return "This unit intended to attack a tile"
+	elif order_list[turn_count][0] == "move":
+		return "This unit intended to move to a tile"
+	else:
+		return "This unit has no more actions left"
+
+#Return [action, location, friendly, type, self]
+func get_order_details(turn_count):
+	return order_list[turn_count].duplicate() + [friendly, type, self]

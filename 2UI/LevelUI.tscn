@@ -1,8 +1,9 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://2UI/LevelUI.gd" type="Script" id=1]
 [ext_resource path="res://2UI/FriendlyUnitUI.tscn" type="PackedScene" id=2]
 [ext_resource path="res://2UI/Content.gd" type="Script" id=3]
+[ext_resource path="res://2UI/EnemyUnitUI.tscn" type="PackedScene" id=4]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.0980392, 0.14902, 0.219608, 1 )
@@ -341,11 +342,17 @@ __meta__ = {
 }
 
 [node name="FriendlyUnit" type="Popup" parent="."]
-visible = true
 margin_right = 160.0
 margin_bottom = 192.0
 
 [node name="UnitDetails" parent="FriendlyUnit" instance=ExtResource( 2 )]
+
+[node name="EnemyUnit" type="Popup" parent="."]
+visible = true
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="UnitDetails" parent="EnemyUnit" instance=ExtResource( 4 )]
 
 [node name="StartTurn" type="Button" parent="."]
 margin_left = 1068.0
@@ -368,10 +375,61 @@ text = "START TURN"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Continue" type="Button" parent="."]
+visible = false
+margin_left = 1068.0
+margin_top = 668.0
+margin_right = 1272.0
+margin_bottom = 712.0
+focus_mode = 0
+custom_styles/hover = SubResource( 11 )
+custom_styles/pressed = SubResource( 12 )
+custom_styles/focus = SubResource( 12 )
+custom_styles/disabled = SubResource( 14 )
+custom_styles/normal = SubResource( 12 )
+custom_fonts/font = SubResource( 15 )
+custom_colors/font_color_disabled = Color( 1, 1, 1, 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
+custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
+enabled_focus_mode = 0
+text = "CONTINUE"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Reset" type="Button" parent="."]
+visible = false
+margin_left = 1068.0
+margin_top = 668.0
+margin_right = 1272.0
+margin_bottom = 712.0
+focus_mode = 0
+custom_styles/hover = SubResource( 11 )
+custom_styles/pressed = SubResource( 12 )
+custom_styles/focus = SubResource( 12 )
+custom_styles/disabled = SubResource( 14 )
+custom_styles/normal = SubResource( 12 )
+custom_fonts/font = SubResource( 15 )
+custom_colors/font_color_disabled = Color( 1, 1, 1, 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
+custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
+enabled_focus_mode = 0
+text = "RESET"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="pressed" from="OuterPanel2/BattleLog" to="." method="_on_BattleLog_pressed"]
 [connection signal="pressed" from="OuterPanel3/Settings" to="." method="_on_Settings_pressed"]
 [connection signal="pressed" from="Popup/Content/Mute" to="." method="_on_Mute_pressed"]
 [connection signal="pressed" from="Popup/Content/Restart" to="." method="_on_Restart_pressed"]
 [connection signal="pressed" from="Popup/Content/Menu" to="." method="_on_Menu_pressed"]
 [connection signal="mouse_exited" from="FriendlyUnit" to="." method="_on_FriendlyUnit_mouse_exited"]
+[connection signal="attack" from="FriendlyUnit/UnitDetails" to="." method="_on_UnitDetails_attack"]
+[connection signal="move" from="FriendlyUnit/UnitDetails" to="." method="_on_UnitDetails_move"]
+[connection signal="skipturn" from="FriendlyUnit/UnitDetails" to="." method="_on_UnitDetails_skipturn"]
 [connection signal="pressed" from="StartTurn" to="." method="_on_StartTurn_pressed"]
+[connection signal="pressed" from="Continue" to="." method="_on_Continue_pressed"]
+[connection signal="pressed" from="Reset" to="." method="_on_Reset_pressed"]

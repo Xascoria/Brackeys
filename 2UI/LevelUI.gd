@@ -76,4 +76,46 @@ func friendly_unit_details(index, unit_name, health, state, show_position):
 	$FriendlyUnit.rect_position = show_position
 	$FriendlyUnit.popup()
 
+func enemy_unit_details(index, unit_name, health, intent, show_position):
+	$EnemyUnit/UnitDetails.setup(index, unit_name, health, intent)
+	$EnemyUnit.rect_position = show_position
+	$EnemyUnit.popup()
+
+func _on_UnitDetails_attack(index):
+	emit_signal("order_given", "attack", index)
+
+func _on_UnitDetails_move(index):		
+	emit_signal("order_given", "move", index)
+	
+func _on_UnitDetails_skipturn(index):
+	emit_signal("order_given", "skipturn", index)
+	
+signal order_given(type, index)
+signal continue_lvl
+signal reset 
+
+func _on_Continue_pressed():
+	emit_signal("continue_lvl")
+	
+func _on_Reset_pressed():
+	emit_signal("reset")
+
+func set_order_given(index, is_not_skip):
+	for i in $UnitPanel/InnerPanel.get_children():
+		if i is Control and not i is Label:
+			if i.index == index:
+				i.change_state(is_not_skip)
+
+func reset_orders():
+	for i in $UnitPanel/InnerPanel.get_children():
+		if i is Control and not i is Label:
+			i.change_state(false)
+
+
+func make_continue_visible():
+	$Continue.show()
+	
+func make_reset_visible():
+	$Reset.show()
+
 

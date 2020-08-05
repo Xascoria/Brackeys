@@ -5,6 +5,12 @@ var index
 var unit_name
 var health
 var state = ""
+var friendly = true
+var order_given = []
+const type = "soldier"
+
+const attack_pattern = [Vector2(-1,0), Vector2(1,0), Vector2(0,1), Vector2(0,-1)]
+const move_pattern = [Vector2(-1,0), Vector2(1,0), Vector2(0,1), Vector2(0,-1)]
 
 func _ready():
 	pass
@@ -26,3 +32,12 @@ func flip_to_direction(direction):
 		self.scale = Vector2(1,1)
 	elif direction == "right":
 		self.scale = Vector2(-1,1)
+
+#Return [action, location, friendly, type, self]
+func get_order_details(_turn_count):
+	var test = []
+	if len(order_given) == 0:
+		test = ["rest", Vector2(0,0)]
+	else:
+		test = order_given.duplicate()
+	return test + [friendly, type, self]

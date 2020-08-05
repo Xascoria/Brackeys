@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://2Resources/Tileset.png" type="Texture" id=1]
 [ext_resource path="res://2Scripts/Map.gd" type="Script" id=2]
+[ext_resource path="res://2Resources/AimTileset/AimTileset.tres" type="TileSet" id=3]
 
 [sub_resource type="TileSet" id=1]
 0/name = "road_0"
@@ -160,6 +161,7 @@ tile_data = PoolIntArray( 0, 9, 0, 1, 7, 0, 2, 1, 0, 3, 7, 0, 4, 7, 0, 5, 7, 0, 
 
 [node name="Predictions" type="TileMap" parent="."]
 mode = 1
+tile_set = ExtResource( 3 )
 cell_size = Vector2( 62, 32 )
 format = 1
 
@@ -168,3 +170,12 @@ format = 1
 [node name="PredictionsClickBox" type="Node2D" parent="."]
 
 [node name="TurnTimer" type="Timer" parent="."]
+wait_time = 1.5
+
+[node name="TimelineTimer" type="Timer" parent="."]
+wait_time = 0.9
+one_shot = true
+
+[node name="Tween" type="Tween" parent="."]
+[connection signal="timeout" from="TurnTimer" to="." method="_on_TurnTimer_timeout"]
+[connection signal="timeout" from="TimelineTimer" to="." method="_on_TimelineTimer_timeout"]

@@ -14,6 +14,7 @@ func setup(index:int, unit_name, health:int, state):
 
 signal attack(index)
 signal move(index)
+signal skipturn(index)
 func _on_Attack_pressed():
 	emit_signal("attack", index)
 	get_parent().hide()
@@ -23,4 +24,5 @@ func _on_Move_pressed():
 	get_parent().hide()
 	
 func _on_SkipTurn_pressed():
+	emit_signal("skipturn", index)
 	get_parent().hide()
