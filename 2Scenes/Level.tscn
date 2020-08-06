@@ -78,6 +78,8 @@ wait_time = 6.0
 one_shot = true
 
 [node name="UI" parent="." instance=ExtResource( 2 )]
+[connection signal="rewind_complete" from="Map" to="." method="_on_Map_rewind_complete"]
+[connection signal="rewinded_day" from="Map" to="." method="_on_Map_rewinded_day"]
 [connection signal="tile_clicked_on" from="Map" to="." method="_on_Map_tile_clicked_on"]
 [connection signal="timeline_broke" from="Map" to="." method="timeline_collasped"]
 [connection signal="turn_finished" from="Map" to="." method="_on_Map_turn_finished"]

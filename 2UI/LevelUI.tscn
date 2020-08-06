@@ -348,7 +348,6 @@ margin_bottom = 192.0
 [node name="UnitDetails" parent="FriendlyUnit" instance=ExtResource( 2 )]
 
 [node name="EnemyUnit" type="Popup" parent="."]
-visible = true
 margin_right = 40.0
 margin_bottom = 40.0
 

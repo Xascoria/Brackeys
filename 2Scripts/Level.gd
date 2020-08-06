@@ -5,13 +5,17 @@ onready var enemy_tank = preload("res://2Units/EnemyTank.tscn")
 onready var enemy_soldier = preload("res://2Units/EnemySoldier.tscn")
 onready var friendly_tank = preload("res://2Units/FriendlyTank.tscn")
 onready var friendly_soldier = preload("res://2Units/FriendlySoldier.tscn")
+onready var building1 = preload("res://2Buildings/Building1.tscn")
+onready var building2 = preload("res://2Buildings/Building2.tscn")
+onready var building3 = preload("res://2Buildings/Building3.tscn")
+onready var building4 = preload("res://2Buildings/Building4.tscn")
 
 var unit_list = []
 var replay_turns = [[]]
 var unit_selected = 0
 var turn_count = 0
 var max_turn = 3
-var check_for_health = false
+var check_for_health = true
 
 #Format: Type, Name, Health, State, Enabled, Grid_Coord
 var level_contents = [
@@ -22,7 +26,7 @@ var level_contents = [
 	],
 	#Enemies
 	[
-		["tank", "AX29", 2, [["attack", Vector2(1,1)], ["move", Vector2(0,-1)], ["move", Vector2(0,-1)], ["rest", Vector2(0,0)]]
+		["soldier", "AX29", 2, [["attack", Vector2(1,1)], ["move", Vector2(0,-1)], ["move", Vector2(0,-1)], ["rest", Vector2(0,0)]]
 		,true , Vector2(0,2)],
 		["soldier", "GP33", 2, [["attack", Vector2(-1,0)], ["move", Vector2(0,-1)], ["move", Vector2(0,-1)], ["rest", Vector2(0,0)]]
 		,true , Vector2(2,3)],
@@ -33,7 +37,9 @@ var level_contents = [
 	["18 December 2020", "17 December 2020", "16 December 2020", "15 December 2020"],
 	#Victory condition: [friendly, position, health]
 	[[false, Vector2(0,0), 3], [false, Vector2(2,1), 2], [false, Vector2(4,1), 2], 
-	[true, Vector2(1,4), 3], [true, Vector2(4,4), 3]]
+	[true, Vector2(1,4), 3], [true, Vector2(4,4), 3]],
+	#Obstacles
+	[[1, [3,5]]]
 ]
 
 func _ready():
@@ -77,6 +83,14 @@ func setup_level():
 		unit.flip_to_direction("left")
 		$Map.add_new_unit(unit, level_contents[1][i][5])
 		unit_list.append(unit)
+		
+	#Buildings
+	for i in range(len(level_contents[4])):
+		var building
+		match(level_contents[4][i][0]):
+			1:
+				building = building1.instance()
+		$Map.add_building(building, level_contents[4][i][1])
 
 #End states
 func timeline_collasped(subtext):
@@ -120,10 +134,18 @@ func _on_Timer_timeout():
 
 func reverse_battle():
 	replay_turns.pop_back()
-	level_contents[2].pop_back()
 	
-	for i in replay_turns[2]:
-		print(i)
+	var output = []
+	for i in range(len(replay_turns)):
+		output.append([])
+		for j in range(len(replay_turns[len(replay_turns)-1-i])):
+			if replay_turns[len(replay_turns)-1-i][j][0] != "rest":
+				output[len(output)-1].append(replay_turns[len(replay_turns)-1-i][j])
+				
+	
+	$Map.yaah_its_rewind_time(output)
+
+
 
 ###Dealing with victory
 
@@ -235,8 +257,14 @@ func _on_Map_tile_clicked_on(action, coord):
 	if animation_playing:
 		return
 		
-	unit_list[unit_selected].order_given = [action, Vector2(coord[0], coord[1])]
+	var unit_cord = $Map.get_unit_coord(unit_list[unit_selected])
+	unit_list[unit_selected].order_given = [action, Vector2(coord[0], coord[1]) - unit_cord]
 	$UI.set_order_given(unit_selected, true)
 	
+func _on_Map_rewind_complete():
+	$UI.make_continue_visible()
 
-
+func _on_Map_rewinded_day():
+	
+	level_contents[2].pop_back()
+	$UI.update_date(level_contents[2][len(level_contents[2])-1])

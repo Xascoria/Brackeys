@@ -35,6 +35,14 @@ func add_new_unit(ref_to_unit, coord):
 	ref_to_unit.position = calculate_pos(coord)
 	ref_to_unit.connect("clicked", self, "unit_clicked")
 	
+func add_building(ref_to_building, coord):
+	if not coord_in_bound(coord):
+		return
+	
+	units_matrix[coord[1]][coord[0]] = ref_to_building
+	$UnitsYSort.add_child(ref_to_building)
+	ref_to_building.position = calculate_pos(coord)
+	
 signal unit_clicked(index)
 func unit_clicked(index):
 	emit_signal("unit_clicked", index)
@@ -163,10 +171,10 @@ func execute_turn(this_turn_info):
 					break
 	
 	var target_pos
-	if not this_turn_info[4].friendly:
-		target_pos = node_pos + this_turn_info[1]
-	else:
-		target_pos = this_turn_info[1]
+	#if not this_turn_info[4].friendly:
+	target_pos = node_pos + this_turn_info[1]
+	#else:
+		#target_pos = this_turn_info[1]
 	
 	match(this_turn_info[0]):
 		"attack":
@@ -197,5 +205,56 @@ func _on_TimelineTimer_timeout():
 			output_msg = "YOU MADE A LOGICALLY IMPOSSIBLE MOVE IN REVERSE TIME"
 	emit_signal("timeline_broke", output_msg)
 
-func yrah_its_rewind_time():
-	pass
+##Rewind stuff
+signal rewind_complete
+signal rewinded_day
+var rewind_contents = []
+var rewinding_day = []
+func yaah_its_rewind_time(rewind_contents):
+	self.rewind_contents = rewind_contents
+	$RewindTimer.start()
+	
+func rewind_turn(turn_content):
+	var node_pos
+	for i in range(len(units_matrix)):
+		for j in range(len(units_matrix[i])):
+			if units_matrix[i][j]:
+				if units_matrix[i][j] == turn_content[4]:
+					node_pos = Vector2(j,i)
+					break
+
+	var target_pos
+					
+	match(turn_content[0]):
+		"attack":
+			target_pos = node_pos + turn_content[1]
+			if units_matrix[target_pos[1]][target_pos[0]]:
+				print(turn_content[4].unit_name + " attacked " + units_matrix[target_pos[1]][target_pos[0]].unit_name)
+				units_matrix[target_pos[1]][target_pos[0]].health -= 1
+			else:
+				print(turn_content[4].unit_name + " attacked nothing")
+		"move":
+			target_pos = node_pos - turn_content[1]
+			$Tween.interpolate_property(turn_content[4], "position", turn_content[4].position, calculate_pos(target_pos), 0.6)
+			$Tween.start()
+			units_matrix[node_pos[1]][node_pos[0]] = null
+			units_matrix[target_pos[1]][target_pos[0]] = turn_content[4]
+			print(turn_content[4].unit_name + " moved")
+
+func _on_RewindTimer_timeout():
+	if len(rewind_contents) == 0 and len(rewinding_day) == 0:
+		emit_signal("rewind_complete")
+		$RewindTimer.stop()
+		return
+	
+	if len(rewinding_day) == 0:
+		rewinding_day = rewind_contents.pop_front()
+		emit_signal("rewinded_day")
+	rewind_turn(rewinding_day.pop_back())
+
+func get_unit_coord(ref_to_unit):
+	for i in range(len(units_matrix)):
+		for j in range(len(units_matrix[i])):
+			if units_matrix[i][j]:
+				if units_matrix[i][j] == ref_to_unit:
+					return Vector2(j,i)

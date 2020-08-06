@@ -176,6 +176,10 @@ wait_time = 1.5
 wait_time = 0.9
 one_shot = true
 
+[node name="RewindTimer" type="Timer" parent="."]
+wait_time = 0.75
+
 [node name="Tween" type="Tween" parent="."]
 [connection signal="timeout" from="TurnTimer" to="." method="_on_TurnTimer_timeout"]
 [connection signal="timeout" from="TimelineTimer" to="." method="_on_TimelineTimer_timeout"]
+[connection signal="timeout" from="RewindTimer" to="." method="_on_RewindTimer_timeout"]
