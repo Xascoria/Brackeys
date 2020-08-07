@@ -3,4 +3,5 @@
 [ext_resource path="res://2Globals/BGMPlayer.gd" type="Script" id=1]
 
 [node name="BGMPlayer" type="AudioStreamPlayer"]
+bus = "BGM"
 script = ExtResource( 1 )

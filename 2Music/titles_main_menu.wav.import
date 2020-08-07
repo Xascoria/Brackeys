@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/titles_main_menu.wav-064652064af9bfe88896d4478c45f8a9.sample"
+
+[deps]
+
+source_file="res://2Music/titles_main_menu.wav"
+dest_files=[ "res://.import/titles_main_menu.wav-064652064af9bfe88896d4478c45f8a9.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=true
+compress/mode=0

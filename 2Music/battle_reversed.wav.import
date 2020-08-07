@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/battle_reversed.wav-a1cc7edf322f1f7f214f2696a9a61c5f.sample"
+
+[deps]
+
+source_file="res://2Music/battle_reversed.wav"
+dest_files=[ "res://.import/battle_reversed.wav-a1cc7edf322f1f7f214f2696a9a61c5f.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=true
+compress/mode=0

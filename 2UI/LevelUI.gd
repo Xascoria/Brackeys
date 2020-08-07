@@ -8,9 +8,9 @@ signal menu
 func _ready():
 	#Check if music is muted
 	if BgmPlayer.muted:
-		$Popup/Content/Mute.text = "UNMUTE SOUND"
+		$Popup/Content/Mute.text = "UNMUTE MUSIC"
 	else:
-		$Popup/Content/Mute.text = "MUTE SOUND"
+		$Popup/Content/Mute.text = "MUTE MUSIC"
 
 func _on_StartTurn_pressed():
 	$StartTurn.disabled = true
@@ -18,16 +18,17 @@ func _on_StartTurn_pressed():
 
 func _on_Settings_pressed():
 	$Popup.popup()
+	
 
 func _on_BattleLog_pressed():
-	pass # Replace with function body.
+	$BattleLog.popup()
 
 func _on_Mute_pressed():
 	BgmPlayer.mute_unmute()
 	if BgmPlayer.muted:
-		$Popup/Content/Mute.text = "UNMUTE SOUND"
+		$Popup/Content/Mute.text = "UNMUTE MUSIC"
 	else:
-		$Popup/Content/Mute.text = "MUTE SOUND"
+		$Popup/Content/Mute.text = "MUTE MUSIC"
 
 func _on_Restart_pressed():
 	emit_signal("restart")
@@ -118,4 +119,12 @@ func make_continue_visible():
 func make_reset_visible():
 	$Reset.show()
 
+func make_startturn_invisible():
+	$UnitPanel.visible = false
+	$StartTurn.visible = false
 
+func setup_bf_details(map_size, unit_details, buildings_details, scale, text_details):
+	$BattleLog/OuterPanel/InnerPanel/Node2D.map_setup(map_size, unit_details, buildings_details)
+	$BattleLog/OuterPanel/InnerPanel/Node2D.scale.x = scale
+	$BattleLog/OuterPanel/InnerPanel/Node2D.scale.y = scale
+	$BattleLog/OuterPanel/InnerPanel/Label.text = text_details

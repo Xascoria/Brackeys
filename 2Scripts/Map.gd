@@ -21,6 +21,13 @@ func set_map_size(size):
 		units_matrix.append([])
 		for _j in range(size):
 			units_matrix[i].append(null)
+			
+	for i in $Egdes.get_used_cells():
+		$Egdes.set_cellv(i, -1)
+		
+	for i in range(size):
+		$Egdes.set_cellv(Vector2(i,size-1), 0)
+		$Egdes.set_cellv(Vector2(size-1,i), 0)
 
 #Add a unit onto the map
 func add_new_unit(ref_to_unit, coord):
@@ -35,11 +42,13 @@ func add_new_unit(ref_to_unit, coord):
 	ref_to_unit.position = calculate_pos(coord)
 	ref_to_unit.connect("clicked", self, "unit_clicked")
 	
+var building_list = []
 func add_building(ref_to_building, coord):
 	if not coord_in_bound(coord):
 		return
 	
 	units_matrix[coord[1]][coord[0]] = ref_to_building
+	building_list.append(ref_to_building)
 	$UnitsYSort.add_child(ref_to_building)
 	ref_to_building.position = calculate_pos(coord)
 	
@@ -178,11 +187,37 @@ func execute_turn(this_turn_info):
 	
 	match(this_turn_info[0]):
 		"attack":
-			if units_matrix[target_pos[1]][target_pos[0]]:
-				print(this_turn_info[4].unit_name + " attacked " + units_matrix[target_pos[1]][target_pos[0]].unit_name)
-				units_matrix[target_pos[1]][target_pos[0]].health += 1
-			else:
-				print(this_turn_info[4].unit_name + " attacked nothing")
+			if this_turn_info[3] == "soldier":
+				if units_matrix[target_pos[1]][target_pos[0]]:
+					if not units_matrix[target_pos[1]][target_pos[0]] in building_list:
+						print(this_turn_info[4].unit_name + " attacked " + units_matrix[target_pos[1]][target_pos[0]].unit_name)
+						units_matrix[target_pos[1]][target_pos[0]].health += 1
+				else:
+					print(this_turn_info[4].unit_name + " attacked nothing")
+			elif this_turn_info[3] == "tank":
+				if shockwave_invalid(target_pos):
+					$TimelineTimer.start()
+				
+				print(this_turn_info[4].unit_name + " launched a cannon shot")
+				if units_matrix[target_pos[1]][target_pos[0]]:
+					print(units_matrix[target_pos[1]][target_pos[0]].unit_name + " got hit directly and lost(?) 2 health")
+					units_matrix[target_pos[1]][target_pos[0]].health += 2
+				var trans_coord = [Vector2(2,0), Vector2(0,2), Vector2(-2,0), Vector2(0,-2)]
+				var trans_coord2 = [Vector2(1,0), Vector2(0,1), Vector2(-1,0), Vector2(0,-1)]
+				var in_vector = Vector2(target_pos[0], target_pos[1])
+				for i in range(len(trans_coord)):
+					if coord_in_bound(in_vector + trans_coord[i]):
+						if units_matrix[(in_vector + trans_coord[i])[1]][(in_vector + trans_coord[i])[0]]:
+							if not units_matrix[(in_vector + trans_coord[i])[1]][(in_vector + trans_coord[i])[0]] in building_list:
+								$Tween.interpolate_property(units_matrix[(in_vector + trans_coord[i])[1]][(in_vector + trans_coord[i])[0]], "position", units_matrix[(in_vector + trans_coord[i])[1]][(in_vector + trans_coord[i])[0]].position, calculate_pos(target_pos + trans_coord2[i]), 1.2)
+							
+								units_matrix[(in_vector + trans_coord[i])[1]][(in_vector + trans_coord[i])[0]].health += 1
+								print(units_matrix[(in_vector + trans_coord[i])[1]][(in_vector + trans_coord[i])[0]].unit_name + " gets pushed by a cannon shoot and lost 1 health")
+								
+								units_matrix[(in_vector + trans_coord2[i])[1]][(in_vector + trans_coord2[i])[0]] = units_matrix[(in_vector + trans_coord[i])[1]][(in_vector + trans_coord[i])[0]] 
+								units_matrix[(in_vector + trans_coord[i])[1]][(in_vector + trans_coord[i])[0]]  = null
+				
+				$Tween.start()
 		"move":
 			if units_matrix[target_pos[1]][target_pos[0]]:
 				tl_type = 1
@@ -197,7 +232,7 @@ func execute_turn(this_turn_info):
 		"rest":
 			print(this_turn_info[4].unit_name + " did nothing this turn")
 
-var tl_type = 0
+var tl_type = 1
 func _on_TimelineTimer_timeout():
 	var output_msg
 	match(tl_type):
@@ -228,11 +263,33 @@ func rewind_turn(turn_content):
 	match(turn_content[0]):
 		"attack":
 			target_pos = node_pos + turn_content[1]
-			if units_matrix[target_pos[1]][target_pos[0]]:
-				print(turn_content[4].unit_name + " attacked " + units_matrix[target_pos[1]][target_pos[0]].unit_name)
-				units_matrix[target_pos[1]][target_pos[0]].health -= 1
-			else:
-				print(turn_content[4].unit_name + " attacked nothing")
+			if turn_content[3] == "soldier":
+				if units_matrix[target_pos[1]][target_pos[0]]:
+					if not units_matrix[target_pos[1]][target_pos[0]] in building_list:
+						print(turn_content[4].unit_name + " attacked " + units_matrix[target_pos[1]][target_pos[0]].unit_name)
+						units_matrix[target_pos[1]][target_pos[0]].health -= 1
+				else:
+					print(turn_content[4].unit_name + " attacked nothing")
+			elif turn_content[3] == "tank":
+				if units_matrix[target_pos[1]][target_pos[0]]:
+					if not units_matrix[target_pos[1]][target_pos[0]] in building_list:
+						units_matrix[target_pos[1]][target_pos[0]].health -= 2
+				var transformation  = [Vector2(1,0), Vector2(-1,0), Vector2(0,1), Vector2(0,-1)]
+				var transformation2 = [Vector2(2,0), Vector2(-2,0), Vector2(0,2), Vector2(0,-2)]
+				var in_vector = Vector2(target_pos[0], target_pos[1])
+				for i in range(len(transformation)):
+					if units_matrix[(in_vector + transformation[i])[1]][(in_vector + transformation[i])[0]]:
+						if not units_matrix[(in_vector + transformation[i])[1]][(in_vector + transformation[i])[0]] in building_list:
+							units_matrix[(in_vector + transformation[i])[1]][(in_vector + transformation[i])[0]].health -= 1
+							
+							var ref_to_unit = units_matrix[(in_vector + transformation[i])[1]][(in_vector + transformation[i])[0]]
+							$Tween.interpolate_property(ref_to_unit, "position", ref_to_unit.position, calculate_pos(in_vector + transformation2[i]),0.6) 
+							
+							units_matrix[(in_vector + transformation2[i])[1]][(in_vector + transformation2[i])[0]] = units_matrix[(in_vector + transformation[i])[1]][(in_vector + transformation[i])[0]]
+							units_matrix[(in_vector + transformation[i])[1]][(in_vector + transformation[i])[0]] = null
+							
+				$Tween.start()
+					
 		"move":
 			target_pos = node_pos - turn_content[1]
 			$Tween.interpolate_property(turn_content[4], "position", turn_content[4].position, calculate_pos(target_pos), 0.6)
@@ -258,3 +315,26 @@ func get_unit_coord(ref_to_unit):
 			if units_matrix[i][j]:
 				if units_matrix[i][j] == ref_to_unit:
 					return Vector2(j,i)
+
+func stop_grey_scale():
+	$Tween.interpolate_property($ColorRect, "modulate:a", 1, 0, 3)
+	$Tween.start()
+
+#If a shockwave is logically possible
+func shockwave_invalid(coord):
+	var in_vector = Vector2(coord[0], coord[1])
+	var transformations = [Vector2(0,1), Vector2(1,0), Vector2(-1,0), Vector2(0,-1)]
+	var second_trans = [Vector2(0,2), Vector2(2,0), Vector2(-2,0), Vector2(0,-2)]
+	for i in transformations:
+		if coord_in_bound(in_vector + i):
+			if units_matrix[(in_vector+i)[1]][(in_vector+i)[0]]:
+				return true
+	
+	for i in range(len(second_trans)):
+		if coord_in_bound(in_vector + second_trans[i]):
+			if units_matrix[(in_vector+transformations[i])[1]][(in_vector+transformations[i])[0]]:
+				if not units_matrix[(in_vector+transformations[i])[1]][(in_vector+transformations[i])[0]] in building_list:
+					return true
+	
+	return false
+	

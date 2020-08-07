@@ -1,4 +1,6 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://2Scripts/Menu.gd" type="Script" id=1]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.0980392, 0.14902, 0.219608, 1 )
@@ -19,7 +21,7 @@ font_path = "res://2Resources/Minecraft.ttf"
 size = 80
 font_data = SubResource( 3 )
 
-[sub_resource type="StyleBoxFlat" id=10]
+[sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 0.321569, 0.447059, 0.615686, 1 )
 border_width_left = 3
 border_width_top = 3
@@ -27,7 +29,7 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color( 0.223529, 0.34902, 0.513726, 1 )
 
-[sub_resource type="StyleBoxFlat" id=7]
+[sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 0.0980392, 0.14902, 0.219608, 1 )
 border_width_left = 3
 border_width_top = 3
@@ -35,19 +37,28 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color( 0.223529, 0.34902, 0.513726, 1 )
 
-[sub_resource type="DynamicFontData" id=8]
+[sub_resource type="DynamicFontData" id=7]
 font_path = "res://2Resources/Minecraft.ttf"
 
-[sub_resource type="DynamicFont" id=9]
+[sub_resource type="DynamicFont" id=8]
 size = 36
 extra_spacing_top = 6
-font_data = SubResource( 8 )
+font_data = SubResource( 7 )
+
+[sub_resource type="StyleBoxFlat" id=9]
+bg_color = Color( 0.0313726, 0.0980392, 0.188235, 1 )
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color( 0.223529, 0.34902, 0.513726, 1 )
 
 [node name="Root" type="Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = 12.0
 custom_styles/panel = SubResource( 1 )
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -79,12 +90,12 @@ margin_top = 272.0
 margin_right = 832.0
 margin_bottom = 336.0
 focus_mode = 0
-custom_styles/hover = SubResource( 10 )
-custom_styles/pressed = SubResource( 7 )
-custom_styles/focus = SubResource( 7 )
-custom_styles/disabled = SubResource( 7 )
-custom_styles/normal = SubResource( 7 )
-custom_fonts/font = SubResource( 9 )
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 6 )
+custom_styles/focus = SubResource( 6 )
+custom_styles/disabled = SubResource( 6 )
+custom_styles/normal = SubResource( 6 )
+custom_fonts/font = SubResource( 8 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
 custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
@@ -100,15 +111,16 @@ margin_top = 368.0
 margin_right = 832.0
 margin_bottom = 432.0
 focus_mode = 0
-custom_styles/hover = SubResource( 10 )
-custom_styles/pressed = SubResource( 7 )
-custom_styles/focus = SubResource( 7 )
-custom_styles/disabled = SubResource( 7 )
-custom_styles/normal = SubResource( 7 )
-custom_fonts/font = SubResource( 9 )
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 6 )
+custom_styles/focus = SubResource( 6 )
+custom_styles/disabled = SubResource( 9 )
+custom_styles/normal = SubResource( 6 )
+custom_fonts/font = SubResource( 8 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
 custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
+disabled = true
 enabled_focus_mode = 0
 text = "Level Selection"
 __meta__ = {
@@ -121,12 +133,12 @@ margin_top = 464.0
 margin_right = 832.0
 margin_bottom = 528.0
 focus_mode = 0
-custom_styles/hover = SubResource( 10 )
-custom_styles/pressed = SubResource( 7 )
-custom_styles/focus = SubResource( 7 )
-custom_styles/disabled = SubResource( 7 )
-custom_styles/normal = SubResource( 7 )
-custom_fonts/font = SubResource( 9 )
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 6 )
+custom_styles/focus = SubResource( 6 )
+custom_styles/disabled = SubResource( 6 )
+custom_styles/normal = SubResource( 6 )
+custom_fonts/font = SubResource( 8 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
 custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
@@ -142,12 +154,12 @@ margin_top = 560.0
 margin_right = 832.0
 margin_bottom = 624.0
 focus_mode = 0
-custom_styles/hover = SubResource( 10 )
-custom_styles/pressed = SubResource( 7 )
-custom_styles/focus = SubResource( 7 )
-custom_styles/disabled = SubResource( 7 )
-custom_styles/normal = SubResource( 7 )
-custom_fonts/font = SubResource( 9 )
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 6 )
+custom_styles/focus = SubResource( 6 )
+custom_styles/disabled = SubResource( 6 )
+custom_styles/normal = SubResource( 6 )
+custom_fonts/font = SubResource( 8 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
 custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
@@ -156,3 +168,7 @@ text = "Exit"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+[connection signal="pressed" from="Start" to="." method="_on_Start_pressed"]
+[connection signal="pressed" from="LevelSelection" to="." method="_on_LevelSelection_pressed"]
+[connection signal="pressed" from="Credits" to="." method="_on_Credits_pressed"]
+[connection signal="pressed" from="Exit" to="." method="_on_Exit_pressed"]

@@ -1,9 +1,12 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://2UI/LevelUI.gd" type="Script" id=1]
 [ext_resource path="res://2UI/FriendlyUnitUI.tscn" type="PackedScene" id=2]
 [ext_resource path="res://2UI/Content.gd" type="Script" id=3]
 [ext_resource path="res://2UI/EnemyUnitUI.tscn" type="PackedScene" id=4]
+[ext_resource path="res://2Resources/LogIcon.png" type="Texture" id=5]
+[ext_resource path="res://2Resources/Cog.png" type="Texture" id=6]
+[ext_resource path="res://2Scenes/BattlefieldDetails.tscn" type="PackedScene" id=7]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.0980392, 0.14902, 0.219608, 1 )
@@ -88,6 +91,22 @@ extra_spacing_top = 3
 font_data = SubResource( 3 )
 
 [sub_resource type="StyleBoxFlat" id=14]
+bg_color = Color( 0.0980392, 0.14902, 0.219608, 1 )
+border_color = Color( 0.223529, 0.34902, 0.513726, 1 )
+
+[sub_resource type="StyleBoxFlat" id=15]
+bg_color = Color( 0.0980392, 0.14902, 0.219608, 1 )
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color( 0.223529, 0.34902, 0.513726, 1 )
+
+[sub_resource type="DynamicFont" id=18]
+size = 20
+font_data = SubResource( 3 )
+
+[sub_resource type="StyleBoxFlat" id=16]
 bg_color = Color( 0.129412, 0.196078, 0.286275, 1 )
 border_width_left = 3
 border_width_top = 3
@@ -99,7 +118,7 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[sub_resource type="DynamicFont" id=15]
+[sub_resource type="DynamicFont" id=17]
 size = 20
 extra_spacing_top = 4
 font_data = SubResource( 3 )
@@ -177,11 +196,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="TextureRect" type="TextureRect" parent="OuterPanel2/BattleLog"]
+margin_left = 10.5
+margin_top = 9.0
+margin_right = 74.5
+margin_bottom = 73.0
+rect_scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 5 )
+
 [node name="OuterPanel3" type="Panel" parent="."]
 margin_left = 1192.0
-margin_top = -8.0
+margin_top = -4.0
 margin_right = 1272.0
-margin_bottom = 64.0
+margin_bottom = 68.0
 custom_styles/panel = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -198,6 +225,14 @@ custom_styles/focus = SubResource( 6 )
 custom_styles/disabled = SubResource( 6 )
 custom_styles/normal = SubResource( 6 )
 enabled_focus_mode = 0
+
+[node name="TextureRect" type="TextureRect" parent="OuterPanel3/Settings"]
+margin_left = 13.5
+margin_top = 13.0
+margin_right = 77.5
+margin_bottom = 81.0
+rect_scale = Vector2( 0.7, 0.7 )
+texture = ExtResource( 6 )
 
 [node name="UnitPanel" type="Panel" parent="."]
 margin_left = -8.0
@@ -256,6 +291,7 @@ __meta__ = {
 }
 
 [node name="CornerPanel" type="Panel" parent="Popup"]
+visible = false
 margin_left = 140.0
 margin_top = -8.0
 margin_right = 212.0
@@ -292,7 +328,7 @@ custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
 custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
 enabled_focus_mode = 0
-text = "MUTE SOUND"
+text = "MUTE MUSIC"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -353,6 +389,44 @@ margin_bottom = 40.0
 
 [node name="UnitDetails" parent="EnemyUnit" instance=ExtResource( 4 )]
 
+[node name="BattleLog" type="Popup" parent="."]
+visible = true
+margin_left = 320.0
+margin_top = 128.0
+margin_right = 960.0
+margin_bottom = 544.0
+
+[node name="OuterPanel" type="Panel" parent="BattleLog"]
+margin_right = 640.0
+margin_bottom = 416.0
+custom_styles/panel = SubResource( 14 )
+
+[node name="InnerPanel" type="Panel" parent="BattleLog/OuterPanel"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 636.0
+margin_bottom = 412.0
+custom_styles/panel = SubResource( 15 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Node2D" parent="BattleLog/OuterPanel/InnerPanel" instance=ExtResource( 7 )]
+position = Vector2( 276, 36 )
+
+[node name="Label" type="Label" parent="BattleLog/OuterPanel/InnerPanel"]
+margin_left = 20.0
+margin_top = 36.0
+margin_right = 260.0
+margin_bottom = 368.0
+custom_fonts/font = SubResource( 18 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "PLACEHOLDER TEXT"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="StartTurn" type="Button" parent="."]
 margin_left = 1068.0
 margin_top = 668.0
@@ -362,9 +436,9 @@ focus_mode = 0
 custom_styles/hover = SubResource( 11 )
 custom_styles/pressed = SubResource( 12 )
 custom_styles/focus = SubResource( 12 )
-custom_styles/disabled = SubResource( 14 )
+custom_styles/disabled = SubResource( 16 )
 custom_styles/normal = SubResource( 12 )
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 17 )
 custom_colors/font_color_disabled = Color( 1, 1, 1, 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
@@ -385,9 +459,9 @@ focus_mode = 0
 custom_styles/hover = SubResource( 11 )
 custom_styles/pressed = SubResource( 12 )
 custom_styles/focus = SubResource( 12 )
-custom_styles/disabled = SubResource( 14 )
+custom_styles/disabled = SubResource( 16 )
 custom_styles/normal = SubResource( 12 )
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 17 )
 custom_colors/font_color_disabled = Color( 1, 1, 1, 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
@@ -408,9 +482,9 @@ focus_mode = 0
 custom_styles/hover = SubResource( 11 )
 custom_styles/pressed = SubResource( 12 )
 custom_styles/focus = SubResource( 12 )
-custom_styles/disabled = SubResource( 14 )
+custom_styles/disabled = SubResource( 16 )
 custom_styles/normal = SubResource( 12 )
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 17 )
 custom_colors/font_color_disabled = Color( 1, 1, 1, 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 1, 1, 1, 1 )

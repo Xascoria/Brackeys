@@ -15,7 +15,7 @@ var replay_turns = [[]]
 var unit_selected = 0
 var turn_count = 0
 var max_turn = 3
-var check_for_health = true
+var check_for_health = GlobalVars.difficulty_hard
 
 #Format: Type, Name, Health, State, Enabled, Grid_Coord
 var level_contents = [
@@ -36,18 +36,22 @@ var level_contents = [
 	#Dates
 	["18 December 2020", "17 December 2020", "16 December 2020", "15 December 2020"],
 	#Victory condition: [friendly, position, health]
-	[[false, Vector2(0,0), 3], [false, Vector2(2,1), 2], [false, Vector2(4,1), 2], 
+	[[false, Vector2(0,0), 3], [false, Vector2(2,0), 2], [false, Vector2(4,1), 2], 
 	[true, Vector2(1,4), 3], [true, Vector2(4,4), 3]],
 	#Obstacles
-	[[1, [3,5]]]
+	[[2, [3,5]]],
+	#scale and details
+	[1, "BATTLE REPORT ON DECEMBER 25\n\nI'M PRETTY SURE WE LOST THE WAR AT THIS POINT, BUT HEY WE CAN STILL TRY I GUESS...?"]
 ]
 
 func _ready():
+	SfxPlayer.play_sfx(8)
 	BgmPlayer.change_song(1)
 	$Map.set_map_size(6)
 	setup_level()
 	
 	$UI.update_date(level_contents[2][turn_count])
+	$UI.setup_bf_details(6, level_contents[3], level_contents[4], level_contents[5][0], level_contents[5][1])
 	#Each unit should have an index to be used to communicate between Map, UI, and level
 
 #Function to setup the UI and units for a level
@@ -90,6 +94,12 @@ func setup_level():
 		match(level_contents[4][i][0]):
 			1:
 				building = building1.instance()
+			2:
+				building = building2.instance()
+			3:
+				building = building3.instance()
+			4:
+				building = building4.instance()
 		$Map.add_building(building, level_contents[4][i][1])
 
 #End states
@@ -100,14 +110,17 @@ func timeline_collasped(subtext):
 	$TimelineInfo/sublabel.text = subtext
 	$TimelineInfo/Tween.interpolate_property($TimelineInfo/ColorRect.get("material"), "shader_param/dispSize", 0.01, 2, 1.5)
 	$TimelineInfo/Tween.start()
+	$Map.visible = false
 	$TimelineInfo.show()
 	
 	$UI.make_reset_visible()
+	$UI.make_startturn_invisible()
 	
 ### Dealing with victory	
 	
 func timeline_restored():
 	endstate_reached = true
+	$UI.make_startturn_invisible()
 	
 	$TimelineInfo/ColorRect.visible = false
 	$TimelineInfo/Label.text = "TIMELINE RESTORED"
@@ -119,6 +132,7 @@ func timeline_restored():
 	$TimelineInfo/Tween.start()
 	$TimelineInfo.show()
 	$TimelineInfo/Timer.start()
+	BgmPlayer.change_song(2)
 
 var timer_once = false
 func _on_Timer_timeout():
@@ -126,13 +140,15 @@ func _on_Timer_timeout():
 		$TimelineInfo/Timer.wait_time = 4
 		$TimelineInfo/Timer.start()
 		$TimelineInfo/Label.text = "BATTLE OF LONDON"
-		$TimelineInfo/sublabel.text = level_contents[2][len(level_contents[2])-1] + " - " + level_contents[2][len(level_contents[0])-1]
+		$TimelineInfo/sublabel.text = ""
 		timer_once = true
 	else:
 		$TimelineInfo.visible = false
+		$Map.stop_grey_scale()
 		reverse_battle()
 
 func reverse_battle():
+	SfxPlayer.play_sfx(6)
 	replay_turns.pop_back()
 	
 	var output = []
@@ -168,6 +184,7 @@ var endstate_reached = false
 ## Dealing with UI
 
 func _on_UI_startTurn():
+	SfxPlayer.play_sfx(3)
 	if endstate_reached:
 		return
 	
@@ -183,6 +200,7 @@ func _on_UI_startTurn():
 	
 
 func _on_UI_unit_selected(index):
+	SfxPlayer.play_sfx(5)
 	if animation_playing or endstate_reached:
 		return
 	
@@ -196,16 +214,18 @@ func _on_UI_unit_selected(index):
 	unit_list[index].state, UI_pos)
 	
 func _on_UI_menu():
-	pass # Replace with function body.
+	get_tree().change_scene("res://2Scenes/Menu.tscn")
 
 func _on_UI_restart():
+	SfxPlayer.play_sfx(5)
 	get_tree().reload_current_scene()
 	
 func _on_UI_reset():
+	SfxPlayer.play_sfx(5)
 	get_tree().reload_current_scene()
 	
 func _on_UI_order_given(type, index):
-	
+	SfxPlayer.play_sfx(7)
 	if type == "attack":
 		$Map.draw_predictions(unit_list[index], "attack")
 	if type == "move":
@@ -215,6 +235,7 @@ func _on_UI_order_given(type, index):
 		unit_list[index].order_given = []
 
 func _on_UI_continue_lvl():
+	SfxPlayer.play_sfx(4)
 	pass # Replace with function body.
 
 ## Interactions with the map
@@ -238,7 +259,8 @@ func _on_Map_turn_finished():
 			timeline_collasped("YOU FAILED TO RECREATE THE BATTLE IN REVERSE TIME")
 
 func _on_Map_unit_clicked(index):
-	if animation_playing:
+	SfxPlayer.play_sfx(5)
+	if animation_playing or endstate_reached:
 		return
 	
 	if index < len(level_contents[0]):
@@ -254,6 +276,7 @@ func _on_Map_unit_clicked(index):
 		get_viewport().get_mouse_position())
 	
 func _on_Map_tile_clicked_on(action, coord):
+	SfxPlayer.play_sfx(4)
 	if animation_playing:
 		return
 		

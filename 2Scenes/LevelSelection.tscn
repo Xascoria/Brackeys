@@ -1,4 +1,6 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://2Scripts/LevelSelection.gd" type="Script" id=1]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.0980392, 0.14902, 0.219608, 1 )
@@ -12,14 +14,7 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color( 0.223529, 0.34902, 0.513726, 1 )
 
-[sub_resource type="DynamicFontData" id=3]
-font_path = "res://2Resources/Minecraft.ttf"
-
-[sub_resource type="DynamicFont" id=4]
-size = 60
-font_data = SubResource( 3 )
-
-[sub_resource type="StyleBoxFlat" id=5]
+[sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.321569, 0.447059, 0.615686, 1 )
 border_width_left = 3
 border_width_top = 3
@@ -27,7 +22,7 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color( 0.223529, 0.34902, 0.513726, 1 )
 
-[sub_resource type="StyleBoxFlat" id=6]
+[sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0.0980392, 0.14902, 0.219608, 1 )
 border_width_left = 3
 border_width_top = 3
@@ -35,19 +30,32 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color( 0.223529, 0.34902, 0.513726, 1 )
 
+[sub_resource type="DynamicFontData" id=5]
+font_path = "res://2Resources/Minecraft.ttf"
+
+[sub_resource type="DynamicFont" id=6]
+size = 24
+extra_spacing_top = 6
+font_data = SubResource( 5 )
+
 [sub_resource type="DynamicFontData" id=7]
 font_path = "res://2Resources/Minecraft.ttf"
 
 [sub_resource type="DynamicFont" id=8]
+size = 60
+font_data = SubResource( 7 )
+
+[sub_resource type="DynamicFont" id=9]
 size = 30
 extra_spacing_top = 6
-font_data = SubResource( 7 )
+font_data = SubResource( 5 )
 
 [node name="Root" type="Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = 12.0
 custom_styles/panel = SubResource( 1 )
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -62,169 +70,193 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="."]
-margin_top = 72.0
-margin_right = 1280.0
-margin_bottom = 152.0
-custom_fonts/font = SubResource( 4 )
+[node name="Menu" type="Button" parent="Panel"]
+margin_left = 1012.0
+margin_top = 640.0
+margin_right = 1256.0
+margin_bottom = 695.0
+rect_min_size = Vector2( 0, 55 )
+focus_mode = 0
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 4 )
+custom_fonts/font = SubResource( 6 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
+custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
+enabled_focus_mode = 0
+text = "BACK TO MENU"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Panel"]
+margin_left = -4.0
+margin_top = 68.0
+margin_right = 1276.0
+margin_bottom = 148.0
+custom_fonts/font = SubResource( 8 )
 text = "LEVEL SELECTION"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_left = 448.0
-margin_top = 184.0
-margin_right = 832.0
-margin_bottom = 659.0
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+margin_left = 444.0
+margin_top = 180.0
+margin_right = 828.0
+margin_bottom = 655.0
 custom_constants/separation = 15
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Level1" type="Button" parent="VBoxContainer"]
+[node name="Level1" type="Button" parent="Panel/VBoxContainer"]
 margin_right = 384.0
 margin_bottom = 55.0
 rect_min_size = Vector2( 0, 55 )
 focus_mode = 0
-custom_styles/hover = SubResource( 5 )
-custom_styles/pressed = SubResource( 6 )
-custom_styles/focus = SubResource( 6 )
-custom_styles/disabled = SubResource( 6 )
-custom_styles/normal = SubResource( 6 )
-custom_fonts/font = SubResource( 8 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 4 )
+custom_fonts/font = SubResource( 9 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
 custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
 enabled_focus_mode = 0
-text = "Battle Of New York"
+text = "Battle 7"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Level2" type="Button" parent="VBoxContainer"]
+[node name="Level2" type="Button" parent="Panel/VBoxContainer"]
 margin_top = 70.0
 margin_right = 384.0
 margin_bottom = 125.0
 rect_min_size = Vector2( 0, 55 )
 focus_mode = 0
-custom_styles/hover = SubResource( 5 )
-custom_styles/pressed = SubResource( 6 )
-custom_styles/focus = SubResource( 6 )
-custom_styles/disabled = SubResource( 6 )
-custom_styles/normal = SubResource( 6 )
-custom_fonts/font = SubResource( 8 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 4 )
+custom_fonts/font = SubResource( 9 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
 custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
 enabled_focus_mode = 0
-text = "Battle Of Washington"
+text = "Battle 6"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Level3" type="Button" parent="VBoxContainer"]
+[node name="Level3" type="Button" parent="Panel/VBoxContainer"]
 margin_top = 140.0
 margin_right = 384.0
 margin_bottom = 195.0
 rect_min_size = Vector2( 0, 55 )
 focus_mode = 0
-custom_styles/hover = SubResource( 5 )
-custom_styles/pressed = SubResource( 6 )
-custom_styles/focus = SubResource( 6 )
-custom_styles/disabled = SubResource( 6 )
-custom_styles/normal = SubResource( 6 )
-custom_fonts/font = SubResource( 8 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 4 )
+custom_fonts/font = SubResource( 9 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
 custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
 enabled_focus_mode = 0
-text = "Battle Of London"
+text = "Battle 5"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Level4" type="Button" parent="VBoxContainer"]
+[node name="Level4" type="Button" parent="Panel/VBoxContainer"]
 margin_top = 210.0
 margin_right = 384.0
 margin_bottom = 265.0
 rect_min_size = Vector2( 0, 55 )
 focus_mode = 0
-custom_styles/hover = SubResource( 5 )
-custom_styles/pressed = SubResource( 6 )
-custom_styles/focus = SubResource( 6 )
-custom_styles/disabled = SubResource( 6 )
-custom_styles/normal = SubResource( 6 )
-custom_fonts/font = SubResource( 8 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 4 )
+custom_fonts/font = SubResource( 9 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
 custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
 enabled_focus_mode = 0
-text = "Battle Of Paris"
+text = "Battle 4"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Level5" type="Button" parent="VBoxContainer"]
+[node name="Level5" type="Button" parent="Panel/VBoxContainer"]
 margin_top = 280.0
 margin_right = 384.0
 margin_bottom = 335.0
 rect_min_size = Vector2( 0, 55 )
 focus_mode = 0
-custom_styles/hover = SubResource( 5 )
-custom_styles/pressed = SubResource( 6 )
-custom_styles/focus = SubResource( 6 )
-custom_styles/disabled = SubResource( 6 )
-custom_styles/normal = SubResource( 6 )
-custom_fonts/font = SubResource( 8 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 4 )
+custom_fonts/font = SubResource( 9 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
 custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
 enabled_focus_mode = 0
-text = "Battle Of Berlin"
+text = "Battle 3"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Level6" type="Button" parent="VBoxContainer"]
+[node name="Level6" type="Button" parent="Panel/VBoxContainer"]
 margin_top = 350.0
 margin_right = 384.0
 margin_bottom = 405.0
 rect_min_size = Vector2( 0, 55 )
 focus_mode = 0
-custom_styles/hover = SubResource( 5 )
-custom_styles/pressed = SubResource( 6 )
-custom_styles/focus = SubResource( 6 )
-custom_styles/disabled = SubResource( 6 )
-custom_styles/normal = SubResource( 6 )
-custom_fonts/font = SubResource( 8 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 4 )
+custom_fonts/font = SubResource( 9 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
 custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
 enabled_focus_mode = 0
-text = "Battle Of Warsaw"
+text = "Battle 2"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Level7" type="Button" parent="VBoxContainer"]
+[node name="Level7" type="Button" parent="Panel/VBoxContainer"]
 margin_top = 420.0
 margin_right = 384.0
 margin_bottom = 475.0
 rect_min_size = Vector2( 0, 55 )
 focus_mode = 0
-custom_styles/hover = SubResource( 5 )
-custom_styles/pressed = SubResource( 6 )
-custom_styles/focus = SubResource( 6 )
-custom_styles/disabled = SubResource( 6 )
-custom_styles/normal = SubResource( 6 )
-custom_fonts/font = SubResource( 8 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 4 )
+custom_fonts/font = SubResource( 9 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
 custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
 enabled_focus_mode = 0
-text = "Battle Of Moscow"
+text = "Battle 1"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+[connection signal="pressed" from="Panel/Menu" to="." method="_on_Menu_pressed"]

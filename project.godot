@@ -16,12 +16,14 @@ _global_script_class_icons={
 [application]
 
 config/name="Brackeys"
-run/main_scene="res://2Scenes/Level.tscn"
+run/main_scene="res://2Scenes/Menu.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
 BgmPlayer="*res://2Globals/BGMPlayer.tscn"
+GlobalVars="*res://2Globals/GlobalVars.gd"
+SfxPlayer="*res://2Globals/SFXPlayer.tscn"
 
 [display]
 
@@ -32,4 +34,5 @@ window/stretch/aspect="keep"
 
 [rendering]
 
+quality/driver/driver_name="GLES2"
 environment/default_environment="res://default_env.tres"
