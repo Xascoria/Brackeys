@@ -128,3 +128,6 @@ func setup_bf_details(map_size, unit_details, buildings_details, scale, text_det
 	$BattleLog/OuterPanel/InnerPanel/Node2D.scale.x = scale
 	$BattleLog/OuterPanel/InnerPanel/Node2D.scale.y = scale
 	$BattleLog/OuterPanel/InnerPanel/Label.text = text_details
+
+func show_tutorial():
+	$Tutorial.popup()

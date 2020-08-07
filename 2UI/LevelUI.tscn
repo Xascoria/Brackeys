@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://2UI/LevelUI.gd" type="Script" id=1]
 [ext_resource path="res://2UI/FriendlyUnitUI.tscn" type="PackedScene" id=2]
@@ -102,11 +102,19 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color( 0.223529, 0.34902, 0.513726, 1 )
 
+[sub_resource type="DynamicFont" id=16]
+size = 20
+font_data = SubResource( 3 )
+
+[sub_resource type="DynamicFont" id=17]
+size = 24
+font_data = SubResource( 3 )
+
 [sub_resource type="DynamicFont" id=18]
 size = 20
 font_data = SubResource( 3 )
 
-[sub_resource type="StyleBoxFlat" id=16]
+[sub_resource type="StyleBoxFlat" id=19]
 bg_color = Color( 0.129412, 0.196078, 0.286275, 1 )
 border_width_left = 3
 border_width_top = 3
@@ -118,7 +126,7 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[sub_resource type="DynamicFont" id=17]
+[sub_resource type="DynamicFont" id=20]
 size = 20
 extra_spacing_top = 4
 font_data = SubResource( 3 )
@@ -390,7 +398,6 @@ margin_bottom = 40.0
 [node name="UnitDetails" parent="EnemyUnit" instance=ExtResource( 4 )]
 
 [node name="BattleLog" type="Popup" parent="."]
-visible = true
 margin_left = 320.0
 margin_top = 128.0
 margin_right = 960.0
@@ -419,9 +426,64 @@ margin_left = 20.0
 margin_top = 36.0
 margin_right = 260.0
 margin_bottom = 368.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 16 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "PLACEHOLDER TEXT"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tutorial" type="Popup" parent="."]
+visible = true
+margin_left = 320.0
+margin_top = 128.0
+margin_right = 960.0
+margin_bottom = 544.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OuterPanel" type="Panel" parent="Tutorial"]
+margin_right = 640.0
+margin_bottom = 416.0
+custom_styles/panel = SubResource( 14 )
+
+[node name="InnerPanel" type="Panel" parent="Tutorial/OuterPanel"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 636.0
+margin_bottom = 412.0
+custom_styles/panel = SubResource( 15 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Tutorial/OuterPanel/InnerPanel"]
+margin_left = 20.0
+margin_top = 28.0
+margin_right = 616.0
+margin_bottom = 360.0
+custom_fonts/font = SubResource( 17 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "In this game, you play a turn-based strategy in game in reverse time, which means that every move you make have opposite effects (Like attacking an enemy gives them health)
+
+Your goal is to retract the steps to the beginning of a battle, to see the original state, click on the book icon on the left corner.
+
+Be careful, if you make a move that's isn't possible in normal timeflow, you'll destroy the timeline!"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="Tutorial/OuterPanel/InnerPanel"]
+margin_left = 28.0
+margin_top = 368.0
+margin_right = 520.0
+margin_bottom = 388.0
+custom_fonts/font = SubResource( 18 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "*Click outside of this box to close the tutorial"
 autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -436,9 +498,9 @@ focus_mode = 0
 custom_styles/hover = SubResource( 11 )
 custom_styles/pressed = SubResource( 12 )
 custom_styles/focus = SubResource( 12 )
-custom_styles/disabled = SubResource( 16 )
+custom_styles/disabled = SubResource( 19 )
 custom_styles/normal = SubResource( 12 )
-custom_fonts/font = SubResource( 17 )
+custom_fonts/font = SubResource( 20 )
 custom_colors/font_color_disabled = Color( 1, 1, 1, 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
@@ -459,9 +521,9 @@ focus_mode = 0
 custom_styles/hover = SubResource( 11 )
 custom_styles/pressed = SubResource( 12 )
 custom_styles/focus = SubResource( 12 )
-custom_styles/disabled = SubResource( 16 )
+custom_styles/disabled = SubResource( 19 )
 custom_styles/normal = SubResource( 12 )
-custom_fonts/font = SubResource( 17 )
+custom_fonts/font = SubResource( 20 )
 custom_colors/font_color_disabled = Color( 1, 1, 1, 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
@@ -482,9 +544,9 @@ focus_mode = 0
 custom_styles/hover = SubResource( 11 )
 custom_styles/pressed = SubResource( 12 )
 custom_styles/focus = SubResource( 12 )
-custom_styles/disabled = SubResource( 16 )
+custom_styles/disabled = SubResource( 19 )
 custom_styles/normal = SubResource( 12 )
-custom_fonts/font = SubResource( 17 )
+custom_fonts/font = SubResource( 20 )
 custom_colors/font_color_disabled = Color( 1, 1, 1, 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 1, 1, 1, 1 )

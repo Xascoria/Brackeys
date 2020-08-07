@@ -15,4 +15,4 @@ func _on_Timer_timeout():
 	$Continue.visible = true
 
 func _on_Continue_pressed():
-	pass # Replace with function body.
+	get_tree().change_scene("res://2Levels/Level1.tscn")

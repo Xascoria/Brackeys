@@ -9,9 +9,7 @@ var friendly = true
 var order_given = []
 const type = "tank"
 
-const attack_pattern = [Vector2(3,0), Vector2(0,3), Vector2(-3,0), Vector2(0,-3), 
-Vector2(2,1), Vector2(1,2), Vector2(-2,1), Vector2(-1,2), 
-Vector2(2,-1), Vector2(1,-2), Vector2(-2,-1), Vector2(-1,-2)]
+const attack_pattern = [Vector2(3,0), Vector2(0,3), Vector2(-3,0), Vector2(0,-3)]
 const move_pattern = [Vector2(-1,0), Vector2(1,0), Vector2(0,1), Vector2(0,-1)]
 
 func _ready():

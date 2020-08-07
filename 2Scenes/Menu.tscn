@@ -120,7 +120,6 @@ custom_fonts/font = SubResource( 8 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
 custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
-disabled = true
 enabled_focus_mode = 0
 text = "Level Selection"
 __meta__ = {

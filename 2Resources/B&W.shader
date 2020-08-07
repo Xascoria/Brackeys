@@ -5,7 +5,7 @@ uniform bool is_greyscale = true;
 void fragment(){
 	if (is_greyscale){
 		COLOR = textureLod(SCREEN_TEXTURE, SCREEN_UV, 0.0);
-		float lumi = (COLOR.r + COLOR.g + COLOR.b)/3.0;
+		float lumi = (COLOR.r + COLOR.g + COLOR.b)/2.5;
 		COLOR.rgb = vec3(lumi);
 	} else {
 		
