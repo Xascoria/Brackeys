@@ -11,7 +11,7 @@ func _on_LevelSelection_pressed():
 	get_tree().change_scene("res://2Scenes/LevelSelection.tscn")
 
 func _on_Credits_pressed():
-	pass # Replace with function body.
+	get_tree().change_scene("res://2Scenes/Credits.tscn")
 
 func _on_Exit_pressed():
 	self.get_tree().quit()

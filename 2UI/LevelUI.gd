@@ -129,5 +129,11 @@ func setup_bf_details(map_size, unit_details, buildings_details, scale, text_det
 	$BattleLog/OuterPanel/InnerPanel/Node2D.scale.y = scale
 	$BattleLog/OuterPanel/InnerPanel/Label.text = text_details
 
-func show_tutorial():
+func show_tutorial(num):
+	match(num):
+		3:
+			$Tutorial/OuterPanel/InnerPanel/Label.text = "You have gotten back some of your tanks that were lost in the war.\n\nA tank deals two damages to an unit through direct hit, and one damage to the 4 tiles that are next to it.\n\n" + \
+			"In normal timeflow, it also produce a shockwave that send the units of those 4 tiles away from the center. As of what this means in reversed time, well, think carefully about that."
+		4:
+			$Tutorial/OuterPanel/InnerPanel/Label.text = "Dead units can be brought back to life if they get attacked, take a wild guess on why."
 	$Tutorial.popup()

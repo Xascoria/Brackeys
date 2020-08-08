@@ -7,6 +7,7 @@ onready var clickbox = preload("res://2Scenes/TileClickbox.tscn")
 var units_matrix = []
 #Size of map, use to check for in bound
 var map_size = 8
+var explosion = load("res://2Scenes/Explosion.tscn")
 
 func _ready():
 	#self.add_tile_clickbox([4,0])
@@ -187,13 +188,40 @@ func execute_turn(this_turn_info):
 	
 	match(this_turn_info[0]):
 		"attack":
+			
+			var current_pos = calculate_pos(node_pos)
+			var target_pos2 = calculate_pos(node_pos - this_turn_info[1])
+			var direction 
+			var facing
+			if current_pos[0] > target_pos2[0]:
+				direction = "right"
+			else:
+				direction = "left"
+			if current_pos[1] > target_pos2[1]:
+				facing = "down"
+			else:
+				facing = "up"
+			this_turn_info[4].flip_to_direction(direction, facing)
+			
+			var new_exp = explosion.instance()
+			self.add_child_below_node($Tween, new_exp)
+			new_exp.position = Vector2(calculate_pos(target_pos)+Vector2(0,-5))
+			new_exp.play_reversed_exp()
+			
 			if this_turn_info[3] == "soldier":
 				if units_matrix[target_pos[1]][target_pos[0]]:
 					if not units_matrix[target_pos[1]][target_pos[0]] in building_list:
 						print(this_turn_info[4].unit_name + " attacked " + units_matrix[target_pos[1]][target_pos[0]].unit_name)
+						if units_matrix[target_pos[1]][target_pos[0]].health == 0:
+							units_matrix[target_pos[1]][target_pos[0]].revive(0.7)
+						
 						units_matrix[target_pos[1]][target_pos[0]].health += 1
+						units_matrix[target_pos[1]][target_pos[0]].on_hit(0.7)
 				else:
 					print(this_turn_info[4].unit_name + " attacked nothing")
+				
+			
+		
 			elif this_turn_info[3] == "tank":
 				if shockwave_invalid(target_pos):
 					$TimelineTimer.start()
@@ -201,7 +229,12 @@ func execute_turn(this_turn_info):
 				print(this_turn_info[4].unit_name + " launched a cannon shot")
 				if units_matrix[target_pos[1]][target_pos[0]]:
 					print(units_matrix[target_pos[1]][target_pos[0]].unit_name + " got hit directly and lost(?) 2 health")
+					if units_matrix[target_pos[1]][target_pos[0]].health == 0:
+						units_matrix[target_pos[1]][target_pos[0]].revive(0.7)
+					
 					units_matrix[target_pos[1]][target_pos[0]].health += 2
+	
+					units_matrix[target_pos[1]][target_pos[0]].on_hit(0.7)
 				var trans_coord = [Vector2(2,0), Vector2(0,2), Vector2(-2,0), Vector2(0,-2)]
 				var trans_coord2 = [Vector2(1,0), Vector2(0,1), Vector2(-1,0), Vector2(0,-1)]
 				var in_vector = Vector2(target_pos[0], target_pos[1])
@@ -210,15 +243,36 @@ func execute_turn(this_turn_info):
 						if units_matrix[(in_vector + trans_coord[i])[1]][(in_vector + trans_coord[i])[0]]:
 							if not units_matrix[(in_vector + trans_coord[i])[1]][(in_vector + trans_coord[i])[0]] in building_list:
 								$Tween.interpolate_property(units_matrix[(in_vector + trans_coord[i])[1]][(in_vector + trans_coord[i])[0]], "position", units_matrix[(in_vector + trans_coord[i])[1]][(in_vector + trans_coord[i])[0]].position, calculate_pos(target_pos + trans_coord2[i]), 1.2)
-							
+								if units_matrix[(in_vector + trans_coord[i])[1]][(in_vector + trans_coord[i])[0]].health == 0:
+									units_matrix[(in_vector + trans_coord[i])[1]][(in_vector + trans_coord[i])[0]].health.revive(0.7)
+			
 								units_matrix[(in_vector + trans_coord[i])[1]][(in_vector + trans_coord[i])[0]].health += 1
+								units_matrix[(in_vector + trans_coord[i])[1]][(in_vector + trans_coord[i])[0]].on_hit(0.7)
 								print(units_matrix[(in_vector + trans_coord[i])[1]][(in_vector + trans_coord[i])[0]].unit_name + " gets pushed by a cannon shoot and lost 1 health")
 								
 								units_matrix[(in_vector + trans_coord2[i])[1]][(in_vector + trans_coord2[i])[0]] = units_matrix[(in_vector + trans_coord[i])[1]][(in_vector + trans_coord[i])[0]] 
 								units_matrix[(in_vector + trans_coord[i])[1]][(in_vector + trans_coord[i])[0]]  = null
 				
 				$Tween.start()
+				
+				
 		"move":
+
+			var current_pos = calculate_pos(node_pos)
+			var target_pos2 = calculate_pos(node_pos - this_turn_info[1])
+			var direction 
+			var facing
+			if current_pos[0] > target_pos2[0]:
+				direction = "left"
+			else:
+				direction = "right"
+			if current_pos[1] > target_pos2[1]:
+				facing = "up"
+			else:
+				facing = "down"
+			this_turn_info[4].flip_to_direction(direction, facing)
+			
+			
 			if units_matrix[target_pos[1]][target_pos[0]]:
 				tl_type = 1
 				$TimelineTimer.start()
@@ -262,18 +316,50 @@ func rewind_turn(turn_content):
 					
 	match(turn_content[0]):
 		"attack":
+			var current_pos = calculate_pos(node_pos)
+			var target_pos2 = calculate_pos(node_pos - turn_content[1])
+			var direction 
+			var facing
+			if current_pos[0] > target_pos2[0]:
+				direction = "right"
+			else:
+				direction = "left"
+			if current_pos[1] > target_pos2[1]:
+				facing = "down"
+			else:
+				facing = "up"
+			print(direction)
+			print(facing)
+			turn_content[4].flip_to_direction(direction, facing)
+			
 			target_pos = node_pos + turn_content[1]
+			
+			var new_exp = explosion.instance()
+			self.add_child_below_node($Tween, new_exp)
+			new_exp.position = Vector2(calculate_pos(target_pos)+Vector2(0,-5))
+			new_exp.play_normal_exp()
+			
+			
 			if turn_content[3] == "soldier":
 				if units_matrix[target_pos[1]][target_pos[0]]:
 					if not units_matrix[target_pos[1]][target_pos[0]] in building_list:
 						print(turn_content[4].unit_name + " attacked " + units_matrix[target_pos[1]][target_pos[0]].unit_name)
 						units_matrix[target_pos[1]][target_pos[0]].health -= 1
+						
+						if units_matrix[target_pos[1]][target_pos[0]].health == 0:
+							units_matrix[target_pos[1]][target_pos[0]].kill_off(0.35)
+						
+						units_matrix[target_pos[1]][target_pos[0]].on_hit(0.35)
 				else:
 					print(turn_content[4].unit_name + " attacked nothing")
 			elif turn_content[3] == "tank":
 				if units_matrix[target_pos[1]][target_pos[0]]:
 					if not units_matrix[target_pos[1]][target_pos[0]] in building_list:
+						if units_matrix[target_pos[1]][target_pos[0]].health == 2:
+							units_matrix[target_pos[1]][target_pos[0]].kill_off(0.35)
+						
 						units_matrix[target_pos[1]][target_pos[0]].health -= 2
+						units_matrix[target_pos[1]][target_pos[0]].on_hit(0.35)
 				var transformation  = [Vector2(1,0), Vector2(-1,0), Vector2(0,1), Vector2(0,-1)]
 				var transformation2 = [Vector2(2,0), Vector2(-2,0), Vector2(0,2), Vector2(0,-2)]
 				var in_vector = Vector2(target_pos[0], target_pos[1])
@@ -281,6 +367,10 @@ func rewind_turn(turn_content):
 					if units_matrix[(in_vector + transformation[i])[1]][(in_vector + transformation[i])[0]]:
 						if not units_matrix[(in_vector + transformation[i])[1]][(in_vector + transformation[i])[0]] in building_list:
 							units_matrix[(in_vector + transformation[i])[1]][(in_vector + transformation[i])[0]].health -= 1
+							
+							if units_matrix[(in_vector + transformation[i])[1]][(in_vector + transformation[i])[0]].health == 0:
+								units_matrix[(in_vector + transformation[i])[1]][(in_vector + transformation[i])[0]].kill_off(0.35)
+							units_matrix[(in_vector + transformation[i])[1]][(in_vector + transformation[i])[0]].on_hit(0.35)
 							
 							var ref_to_unit = units_matrix[(in_vector + transformation[i])[1]][(in_vector + transformation[i])[0]]
 							$Tween.interpolate_property(ref_to_unit, "position", ref_to_unit.position, calculate_pos(in_vector + transformation2[i]),0.6) 
@@ -291,6 +381,22 @@ func rewind_turn(turn_content):
 				$Tween.start()
 					
 		"move":
+			
+			
+			var current_pos = calculate_pos(node_pos)
+			var target_pos2 = calculate_pos(node_pos - turn_content[1])
+			var direction 
+			var facing
+			if current_pos[0] > target_pos2[0]:
+				direction = "left"
+			else:
+				direction = "right"
+			if current_pos[1] > target_pos2[1]:
+				facing = "up"
+			else:
+				facing = "down"
+			turn_content[4].flip_to_direction(direction, facing)
+			
 			target_pos = node_pos - turn_content[1]
 			$Tween.interpolate_property(turn_content[4], "position", turn_content[4].position, calculate_pos(target_pos), 0.6)
 			$Tween.start()
@@ -330,11 +436,12 @@ func shockwave_invalid(coord):
 			if units_matrix[(in_vector+i)[1]][(in_vector+i)[0]]:
 				return true
 	
+	print()
+	
 	for i in range(len(second_trans)):
 		if coord_in_bound(in_vector + second_trans[i]):
 			if units_matrix[(in_vector+transformations[i])[1]][(in_vector+transformations[i])[0]]:
-				if not units_matrix[(in_vector+transformations[i])[1]][(in_vector+transformations[i])[0]] in building_list:
-					return true
+				return true
 	
 	return false
 	

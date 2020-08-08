@@ -27,11 +27,29 @@ func _on_KinematicBody2D_input_event(_viewport, event, _shape_idx):
 		emit_signal("clicked", index)
 
 #Flipping the sprite for animation
-func flip_to_direction(direction):
+func flip_to_direction(direction, facing):
+	for i in $KinematicBody2D.get_children():
+		if i is CollisionPolygon2D:
+			i.disabled = true
+	
 	if direction == "left":
-		self.scale = Vector2(1,1)
+		if facing == "up":
+			$Sprite.position = Vector2(-0.118,-8.405)
+			$Sprite.region_rect = Rect2(6.5,7,45.98,37)
+			$"KinematicBody2D/left-upper".disabled = false
+		elif facing == "down":
+			$Sprite.position = Vector2(0,-6.163)
+			$Sprite.region_rect = Rect2(7,43,45.98,36)
+			$"KinematicBody2D/left-lower".disabled = false
 	elif direction == "right":
-		self.scale = Vector2(-1,1)
+		if facing == "up":
+			$Sprite.position = Vector2(-0.118,-8.405)
+			$Sprite.region_rect = Rect2(51.5,7,45.98,37)
+			$"KinematicBody2D/right-upper".disabled = false
+		elif facing == "down":
+			$Sprite.position = Vector2(0,-6.163)
+			$Sprite.region_rect = Rect2(51,43,45.98,36)
+			$"KinematicBody2D/left-lower".disabled = false
 		
 func get_unit_order():
 	return order_given
@@ -44,3 +62,34 @@ func get_order_details(_turn_count):
 	else:
 		test = order_given.duplicate()
 	return test + [friendly, type, self]
+	
+func on_hit(duration):
+	$Tween.interpolate_property(self, "modulate:g", 1, 0, duration/3, 0, 2, 0)
+	$Tween.interpolate_property(self, "modulate:b", 1, 0, duration/3, 0, 2, 0)
+	
+	$Tween.interpolate_property(self, "modulate:g", 0, 1, duration/3, 0, 2, duration*2/3)
+	$Tween.interpolate_property(self, "modulate:b", 0, 1, duration/3, 0, 2, duration*2/3)
+	$Tween.start()
+	
+func is_dead():
+	$Sprite.visible = false
+	$deadsprite.visible = true
+	
+var to_alive
+func revive(duration):
+	$Timer.wait_time = duration/3
+	to_alive = true
+	$Timer.start()
+	
+func kill_off(duration):
+	$Timer.wait_time = duration/3
+	to_alive = false
+	$Timer.start()
+
+func _on_Timer_timeout():
+	if to_alive:
+		$Sprite.visible = true
+		$deadsprite.visible = false
+	else:
+		$Sprite.visible = false
+		$deadsprite.visible = true

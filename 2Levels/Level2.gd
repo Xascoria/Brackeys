@@ -75,10 +75,13 @@ func setup_level():
 	for i in range(len(level_contents[0])):
 		if level_contents[0][i][0] == "tank":
 			unit = friendly_tank.instance()
+			unit.flip_to_direction("right", "up")
 		elif level_contents[0][i][0] == "soldier":
 			unit = friendly_soldier.instance()
+			unit.flip_to_direction("right", "up")
 		unit.setup(i, level_contents[0][i][1], level_contents[0][i][2], level_contents[0][i][3])
-		unit.flip_to_direction("right")
+		
+	
 		$Map.add_new_unit(unit, level_contents[0][i][5])
 		unit_list.append(unit)
 		
@@ -86,11 +89,13 @@ func setup_level():
 	for i in range(len(level_contents[1])):
 		if level_contents[1][i][0] == "tank":
 			unit = enemy_tank.instance()
+			unit.flip_to_direction("left", "down")
 		elif level_contents[1][i][0] == "soldier":
 			unit = enemy_soldier.instance()
+			unit.flip_to_direction("left", "down")
 		unit.setup(i + len(level_contents[0]), level_contents[1][i][1], level_contents[1][i][2], 
 		level_contents[1][i][3])
-		unit.flip_to_direction("left")
+		#unit.flip_to_direction("left")
 		$Map.add_new_unit(unit, level_contents[1][i][5])
 		unit_list.append(unit)
 		
@@ -107,7 +112,6 @@ func setup_level():
 			4:
 				building = building4.instance()
 		$Map.add_building(building, level_contents[4][i][1])
-
 #End states
 func timeline_collasped(subtext):
 	endstate_reached = true
@@ -148,7 +152,7 @@ func _on_Timer_timeout():
 	if not timer_once:
 		$TimelineInfo/Timer.wait_time = 4
 		$TimelineInfo/Timer.start()
-		$TimelineInfo/Label.text = "BATTLE RESTORED"
+		$TimelineInfo/Label.text = "BATTLE REVISITED"
 		$TimelineInfo/sublabel.text = ""
 		timer_once = true
 	else:
@@ -242,7 +246,7 @@ func _on_UI_order_given(type, index):
 
 func _on_UI_continue_lvl():
 	SfxPlayer.play_sfx(4)
-	self.get_tree().change_scene("res://2Scenes/End.tscn")
+	self.get_tree().change_scene("res://2Levels/Level3.tscn")
 
 ## Interactions with the map
 

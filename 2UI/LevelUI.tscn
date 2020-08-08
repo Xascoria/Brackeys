@@ -435,7 +435,6 @@ __meta__ = {
 }
 
 [node name="Tutorial" type="Popup" parent="."]
-visible = true
 margin_left = 320.0
 margin_top = 128.0
 margin_right = 960.0

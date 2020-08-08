@@ -14,34 +14,32 @@ var unit_list = []
 var replay_turns = [[]]
 var unit_selected = 0
 var turn_count = 0
-var max_turn = 3
+var max_turn = 4
 var check_for_health = GlobalVars.difficulty_hard
 
 #Format: Type, Name, Health, State, Enabled, Grid_Coord
 var level_contents = [
 	#Friendly
 	[
-		["soldier", "Wells", 1, "ALIVE", true, Vector2(1,3)], 
-		["soldier", "Connor", 2, "ALIVE", true, Vector2(4,3)]
+		["tank", "Charlie", 4, "ALIVE", true, Vector2(2,3)], 
+		["soldier", "White", 2, "ALIVE", true, Vector2(5,2)]
 	],
 	#Enemies
 	[
-		["soldier", "AX29", 2, [["attack", Vector2(0,1)], ["move", Vector2(0,-1)], ["move", Vector2(0,-1)], ["rest", Vector2(0,0)]]
-		,true , Vector2(1,2)],
-		["soldier", "GP33", 3, [["attack", Vector2(-1,0)], ["move", Vector2(0,-1)], ["move", Vector2(0,-1)], ["rest", Vector2(0,0)]]
-		,true , Vector2(2,3)],
-		["soldier", "FK182", 2, [["attack", Vector2(0,1)], ["move", Vector2(0,-1)], ["move", Vector2(0,-1)], ["rest", Vector2(0,0)]]
-		,true , Vector2(4,2)]
+		["soldier", "KA73", 1, [["attack", Vector2(0,1)], ["rest", Vector2(0,0)],  ["move", Vector2(0,-1)], ["move", Vector2(0,-1)], ["rest", Vector2(0,0)]]
+		,true , Vector2(2,2)],
+		["soldier", "JV120", 1, [["attack", Vector2(1,0)], ["move", Vector2(0,-1)],["rest", Vector2(0,0)],  ["move", Vector2(0,-1)], ["rest", Vector2(0,0)]]
+		,true , Vector2(4,2)],
 	],
 	#Dates
-	["28 December 2020", "27 December 2020", "26 December 2020", "25 December 2020"],
+	["18 November 2020", "17 November 2020", "16 November 2020", "15 November 2020", "14 November 2020"],
 	#Victory condition: [friendly, position, health]
-	[[false, Vector2(1,0), 3], [false, Vector2(2,1), 3], [false, Vector2(4,0), 3], 
-	[true, Vector2(1,5), 3], [true, Vector2(4,5), 3]],
+	[[false, Vector2(2,0), 3], [false, Vector2(3,0), 3], 
+	[true, Vector2(5,5), 3], [true, Vector2(2,5), 5]],
 	#Obstacles
-	[[2, [3,5]]],
+	[[4, [0,0]], [1, [3,4]]],
 	#scale and details
-	[1, "BATTLE REPORT ON DECEMBER 25\n\nI'M PRETTY SURE WE LOST THE WAR AT THIS POINT, BUT HEY WE CAN STILL TRY I GUESS...?"]
+	[1, "BATTLE REPORT ON NOVEMBER 14\n\nWELL, AT LEAST WE STILL HAVE A SINGLE TANK LEFT IN THE BATTLE..."]
 ]
 
 func _ready():
@@ -53,7 +51,7 @@ func _ready():
 	
 	$UI.update_date(level_contents[2][turn_count])
 	$UI.setup_bf_details(6, level_contents[3], level_contents[4], level_contents[5][0], level_contents[5][1])
-	$UI.show_tutorial(0)
+	$UI.show_tutorial(3)
 	#Each unit should have an index to be used to communicate between Map, UI, and level
 
 #Function to setup the UI and units for a level
@@ -108,7 +106,7 @@ func setup_level():
 			4:
 				building = building4.instance()
 		$Map.add_building(building, level_contents[4][i][1])
-
+		
 #End states
 func timeline_collasped(subtext):
 	endstate_reached = true
@@ -240,7 +238,7 @@ func _on_UI_order_given(type, index):
 
 func _on_UI_continue_lvl():
 	SfxPlayer.play_sfx(4)
-	self.get_tree().change_scene("res://2Levels/Level2.tscn")
+	get_tree().change_scene("res://2Levels/Level5.tscn")
 
 ## Interactions with the map
 
@@ -295,3 +293,6 @@ func _on_Map_rewinded_day():
 	
 	level_contents[2].pop_back()
 	$UI.update_date(level_contents[2][len(level_contents[2])-1])
+	
+func _on_Map_timeline_broke(subtext):
+	timeline_collasped(subtext)

@@ -21,10 +21,10 @@ func _on_Level2_pressed():
 	get_tree().change_scene("res://2Levels/Level2.tscn")
 
 func _on_Level3_pressed():
-	pass # Replace with function body.
+	get_tree().change_scene("res://2Levels/Level3.tscn")
 
 func _on_Level4_pressed():
-	pass # Replace with function body.
+	get_tree().change_scene("res://2Levels/Level5.tscn")
 
 func _on_Level5_pressed():
-	pass # Replace with function body.
+	get_tree().change_scene("res://2Levels/Level4.tscn")

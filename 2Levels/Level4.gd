@@ -14,46 +14,52 @@ var unit_list = []
 var replay_turns = [[]]
 var unit_selected = 0
 var turn_count = 0
-var max_turn = 3
+var max_turn = 6
 var check_for_health = GlobalVars.difficulty_hard
 
 #Format: Type, Name, Health, State, Enabled, Grid_Coord
 var level_contents = [
 	#Friendly
 	[
-		["soldier", "Wells", 1, "ALIVE", true, Vector2(1,3)], 
-		["soldier", "Connor", 2, "ALIVE", true, Vector2(4,3)]
+		["soldier", "Ransom", 1, "ALIVE", true, Vector2(2,5)], 
+		["soldier", "Dale", 0, "ALIVE", true, Vector2(4,5)],
+		["tank", "Georgie", 5, "DOESN", true, Vector2(5,6)],
+		["soldier", "Sook", 1, "DOESN", true, Vector2(6,7)]
 	],
 	#Enemies
 	[
-		["soldier", "AX29", 2, [["attack", Vector2(0,1)], ["move", Vector2(0,-1)], ["move", Vector2(0,-1)], ["rest", Vector2(0,0)]]
-		,true , Vector2(1,2)],
-		["soldier", "GP33", 3, [["attack", Vector2(-1,0)], ["move", Vector2(0,-1)], ["move", Vector2(0,-1)], ["rest", Vector2(0,0)]]
-		,true , Vector2(2,3)],
-		["soldier", "FK182", 2, [["attack", Vector2(0,1)], ["move", Vector2(0,-1)], ["move", Vector2(0,-1)], ["rest", Vector2(0,0)]]
-		,true , Vector2(4,2)]
+#		["soldier", "KA73", 1, [["attack", Vector2(0,1)], ["rest", Vector2(0,0)],  ["move", Vector2(0,-1)], ["move", Vector2(0,-1)], ["rest", Vector2(0,0)]]
+#		,true , Vector2(2,2)],
+#		["soldier", "JV120", 1, [["attack", Vector2(1,0)], ["move", Vector2(0,-1)],["rest", Vector2(0,0)],  ["move", Vector2(0,-1)], ["rest", Vector2(0,0)]]
+#		,true , Vector2(4,2)],
+		["tank", "WQS4217", 5, [["attack", Vector2(0,3)], ["rest", Vector2(0,0)], ["move", Vector2(0,-1)], ["rest", Vector2(0,0)], ["move", Vector2(-1,0)], ["rest", Vector2(0,0)], ["rest", Vector2(0,0)]]
+		,true , Vector2(2,2)],
+		["soldier", "BST55", 2, [["attack", Vector2(0,1)], ["move", Vector2(-1,0)], ["move", Vector2(-1,0)], ["move", Vector2(0,-1)], ["rest", Vector2(0,0)],["move", Vector2(0,-1)], ["rest", Vector2(0,0)] ], 
+		true, Vector2(4,4)],
+		["soldier", "YX515", 2, [["move", Vector2(0,1)], ["rest", Vector2(0,0)],["rest", Vector2(0,0)],["move", Vector2(0,1)],["move", Vector2(0,1)],["move", Vector2(0,1)],["rest", Vector2(0,0)] ],
+		true, Vector2(5,0)]
 	],
 	#Dates
-	["28 December 2020", "27 December 2020", "26 December 2020", "25 December 2020"],
+	["31 August 2020", "30 August 2020", "29 August 2020", "28 August 2020", "27 August 2020", "26 August 2020", "25 August 2020"],
 	#Victory condition: [friendly, position, health]
-	[[false, Vector2(1,0), 3], [false, Vector2(2,1), 3], [false, Vector2(4,0), 3], 
-	[true, Vector2(1,5), 3], [true, Vector2(4,5), 3]],
+	[[false, Vector2(1,1), 5], [false, Vector2(2,2), 2],[false, Vector2(5,3), 3], #[false, Vector2(4,2), 3], [false, Vector2(5,2), 3],
+	[true, Vector2(3,5), 3],[true, Vector2(5,5), 2], [true, Vector2(5,6), 5], [true, Vector2(5,4), 1]],
 	#Obstacles
-	[[2, [3,5]]],
+	#[[4, [0,0]], [1, [3,4]]],
+	[[3, [3,2]], [1, [6,6]]],
 	#scale and details
-	[1, "BATTLE REPORT ON DECEMBER 25\n\nI'M PRETTY SURE WE LOST THE WAR AT THIS POINT, BUT HEY WE CAN STILL TRY I GUESS...?"]
+	[0.77, "BATTLE REPORT ON AUGUST 25\n\nOK, WHEN YOU THINK THE WORST HAS COME TO PASS IN 2020, THE ALIENS INVADED."]
 ]
 
 func _ready():
 	GlobalVars.level_unlocked[0] = true
 	SfxPlayer.play_sfx(8)
 	BgmPlayer.change_song(1)
-	$Map.set_map_size(6)
+	$Map.set_map_size(8)
 	setup_level()
 	
 	$UI.update_date(level_contents[2][turn_count])
-	$UI.setup_bf_details(6, level_contents[3], level_contents[4], level_contents[5][0], level_contents[5][1])
-	$UI.show_tutorial(0)
+	$UI.setup_bf_details(8, level_contents[3], level_contents[4], level_contents[5][0], level_contents[5][1])
 	#Each unit should have an index to be used to communicate between Map, UI, and level
 
 #Function to setup the UI and units for a level
@@ -72,9 +78,14 @@ func setup_level():
 		if level_contents[0][i][0] == "tank":
 			unit = friendly_tank.instance()
 			unit.flip_to_direction("right", "up")
+			if level_contents[0][i][2] == 0:
+				unit.is_dead()
+			
 		elif level_contents[0][i][0] == "soldier":
 			unit = friendly_soldier.instance()
 			unit.flip_to_direction("right", "up")
+			if level_contents[0][i][2] == 0:
+				unit.is_dead()
 		unit.setup(i, level_contents[0][i][1], level_contents[0][i][2], level_contents[0][i][3])
 		
 	
@@ -108,7 +119,7 @@ func setup_level():
 			4:
 				building = building4.instance()
 		$Map.add_building(building, level_contents[4][i][1])
-
+		
 #End states
 func timeline_collasped(subtext):
 	endstate_reached = true
@@ -240,7 +251,7 @@ func _on_UI_order_given(type, index):
 
 func _on_UI_continue_lvl():
 	SfxPlayer.play_sfx(4)
-	self.get_tree().change_scene("res://2Levels/Level2.tscn")
+	get_tree().change_scene("res://2Scenes/End.tscn")
 
 ## Interactions with the map
 
@@ -295,3 +306,6 @@ func _on_Map_rewinded_day():
 	
 	level_contents[2].pop_back()
 	$UI.update_date(level_contents[2][len(level_contents[2])-1])
+	
+func _on_Map_timeline_broke(subtext):
+	timeline_collasped(subtext)

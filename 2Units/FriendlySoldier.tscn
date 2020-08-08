@@ -1,21 +1,93 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://2Units/FriendlySoldier.gd" type="Script" id=1]
-[ext_resource path="res://2Resources/Units.png" type="Texture" id=2]
+[ext_resource path="res://2Resources/PUnit.png" type="Texture" id=2]
+[ext_resource path="res://2Resources/PUD.png" type="Texture" id=3]
+
+[sub_resource type="AtlasTexture" id=1]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 39, 39 )
+
+[sub_resource type="AtlasTexture" id=2]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 39, 0, 39, 39 )
+
+[sub_resource type="AtlasTexture" id=3]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 78, 0, 39, 39 )
+
+[sub_resource type="AtlasTexture" id=4]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 0, 39, 39, 39 )
+
+[sub_resource type="AtlasTexture" id=5]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 39, 39, 39, 39 )
+
+[sub_resource type="AtlasTexture" id=6]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 78, 39, 39, 39 )
+
+[sub_resource type="SpriteFrames" id=7]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ) ],
+"loop": true,
+"name": "default",
+"speed": 8.0
+} ]
 
 [node name="Root" type="Node2D"]
 script = ExtResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 0, -11 )
+position = Vector2( -3.25211, -9.63294 )
 texture = ExtResource( 2 )
 region_enabled = true
-region_rect = Rect2( 129, 0, 62, 80 )
+region_rect = Rect2( 12, 0, 21.5, 32.7 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="."]
 input_pickable = true
 
-[node name="CollisionShape2D" type="CollisionPolygon2D" parent="KinematicBody2D"]
+[node name="left-lower" type="CollisionPolygon2D" parent="KinematicBody2D"]
 visible = false
 polygon = PoolVector2Array( 9.11284, -3.36568, 9.28961, 0.435019, 7.52184, 2.20279, 5.6215, 2.29117, 5.04697, 3.30764, 3.05823, 3.35183, 2.5721, 2.37956, 1.46725, 2.24698, 1.46725, -1.15597, 0.450779, -0.448866, 0.494972, 3.48442, 0.05303, 4.3683, -1.58215, 4.32411, -2.06829, 5.34057, -6.44351, 5.47315, -6.48771, 2.90989, -5.51544, 2.46795, -5.60382, -3.49826, -3.43831, -5.57539, -5.47124, -5.5312, -5.51544, -5.97314, -8.52064, -3.58665, -10.2884, -3.80762, -10.4652, -5.57539, -9.62549, -6.32669, -6.13415, -7.65252, -6.5319, -8.62479, -6.48771, -11.1439, -2.33345, -15.3423, -2.42184, -20.6456, 0.00883675, -23.0321, 4.60503, -23.0763, 7.16829, -20.9108, 7.30087, -16.3146, 6.24022, -15.4307, 9.51058, -12.5139, 9.46639, -9.68545, 6.50538, -7.56413, 6.50538, -3.45407 )
+
+[node name="right-lower" type="CollisionPolygon2D" parent="KinematicBody2D"]
+visible = false
+scale = Vector2( -1, 1 )
+polygon = PoolVector2Array( 9.11284, -3.36568, 9.28961, 0.435019, 7.52184, 2.20279, 5.6215, 2.29117, 5.04697, 3.30764, 3.05823, 3.35183, 2.5721, 2.37956, 1.46725, 2.24698, 1.46725, -1.15597, 0.450779, -0.448866, 0.494972, 3.48442, 0.05303, 4.3683, -1.58215, 4.32411, -2.06829, 5.34057, -6.44351, 5.47315, -6.48771, 2.90989, -5.51544, 2.46795, -5.60382, -3.49826, -3.43831, -5.57539, -5.47124, -5.5312, -5.51544, -5.97314, -8.52064, -3.58665, -10.2884, -3.80762, -10.4652, -5.57539, -9.62549, -6.32669, -6.13415, -7.65252, -6.5319, -8.62479, -6.48771, -11.1439, -2.33345, -15.3423, -2.42184, -20.6456, 0.00883675, -23.0321, 4.60503, -23.0763, 7.16829, -20.9108, 7.30087, -16.3146, 6.24022, -15.4307, 9.51058, -12.5139, 9.46639, -9.68545, 6.50538, -7.56413, 6.50538, -3.45407 )
+
+[node name="right-upper" type="CollisionPolygon2D" parent="KinematicBody2D"]
+visible = false
+polygon = PoolVector2Array( -3.36678, -22.3828, -6.10278, -20.0678, -5.82217, -17.6124, -4.20863, -16.7004, -4.5594, -15.9287, -6.80433, -14.245, -4.48925, -11.1582, -4.84002, -3.44128, -1.68309, -1.68743, -1.8234, -0.70528, -5.33109, -0.354509, -5.61171, 4.97718, -2.7354, 6.0295, 3.36799, 3.71442, 3.22768, 1.25903, 4.91138, -0.354509, 4.27999, -7.72067, 3.22768, -7.86098, 2.94707, -9.61482, 5.54276, -11.3687, 6.59507, -10.597, 6.87568, -11.509, 6.87568, -14.5957, 9.54153, -15.4376, 9.12061, -17.6825, 3.01722, -15.4376, 3.99937, -16.981, 4.06953, -20.0678, 1.6843, -22.6634 )
+
+[node name="left-upper" type="CollisionPolygon2D" parent="KinematicBody2D"]
+visible = false
+scale = Vector2( -1, 1 )
+polygon = PoolVector2Array( -3.36678, -22.3828, -6.10278, -20.0678, -5.82217, -17.6124, -4.20863, -16.7004, -4.5594, -15.9287, -6.80433, -14.245, -4.48925, -11.1582, -4.84002, -3.44128, -1.68309, -1.68743, -1.8234, -0.70528, -5.33109, -0.354509, -5.61171, 4.97718, -2.7354, 6.0295, 3.36799, 3.71442, 3.22768, 1.25903, 4.91138, -0.354509, 4.27999, -7.72067, 3.22768, -7.86098, 2.94707, -9.61482, 5.54276, -11.3687, 6.59507, -10.597, 6.87568, -11.509, 6.87568, -14.5957, 9.54153, -15.4376, 9.12061, -17.6825, 3.01722, -15.4376, 3.99937, -16.981, 4.06953, -20.0678, 1.6843, -22.6634 )
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( 2.312, -5.571 )
+frames = SubResource( 7 )
+
+[node name="deadsprite" type="Sprite" parent="."]
+visible = false
+position = Vector2( 2.31247, -5.57094 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 78, 39, 39, 39 )
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
 [connection signal="input_event" from="KinematicBody2D" to="." method="_on_KinematicBody2D_input_event"]
+[connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

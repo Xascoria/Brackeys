@@ -10,7 +10,16 @@ func setup(index:int, unit_name, health:int, state):
 	self.index = index
 	$InnerPanel/Name.text = "Name: " + unit_name
 	$InnerPanel/Health.text = "\nHealth: " + str(health)
-	$InnerPanel/State.text = "\n\nState: " + state
+	$InnerPanel/State.text = "\n\nState: " + ("ALIVE" if health > 0 else "DEAD")
+	
+	if health == 0:
+		$InnerPanel/Attack.disabled = true
+		$InnerPanel/SkipTurn.disabled = true
+		$InnerPanel/Move.disabled = true
+	else:
+		$InnerPanel/Attack.disabled = false
+		$InnerPanel/SkipTurn.disabled = false
+		$InnerPanel/Move.disabled = false
 
 signal attack(index)
 signal move(index)

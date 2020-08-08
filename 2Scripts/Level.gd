@@ -72,7 +72,7 @@ func setup_level():
 		elif level_contents[0][i][0] == "soldier":
 			unit = friendly_soldier.instance()
 		unit.setup(i, level_contents[0][i][1], level_contents[0][i][2], level_contents[0][i][3])
-		unit.flip_to_direction("right")
+		#unit.flip_to_direction("right")
 		$Map.add_new_unit(unit, level_contents[0][i][5])
 		unit_list.append(unit)
 		
@@ -84,7 +84,7 @@ func setup_level():
 			unit = enemy_soldier.instance()
 		unit.setup(i + len(level_contents[0]), level_contents[1][i][1], level_contents[1][i][2], 
 		level_contents[1][i][3])
-		unit.flip_to_direction("left")
+		#unit.flip_to_direction("left")
 		$Map.add_new_unit(unit, level_contents[1][i][5])
 		unit_list.append(unit)
 		

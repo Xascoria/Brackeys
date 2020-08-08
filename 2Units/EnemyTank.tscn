@@ -1,20 +1,38 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://2Units/EnemyTank.gd" type="Script" id=1]
-[ext_resource path="res://2Resources/Units.png" type="Texture" id=2]
+[ext_resource path="res://2Resources/ETank.png" type="Texture" id=2]
 
 [node name="Root" type="Node2D"]
 script = ExtResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 0, -11 )
+position = Vector2( 0, -8.324 )
 texture = ExtResource( 2 )
 region_enabled = true
-region_rect = Rect2( 1, 0, 62, 80 )
+region_rect = Rect2( 50.5, 7, 45, 37.5 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="."]
 input_pickable = true
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="KinematicBody2D"]
+[node name="right-lower" type="CollisionPolygon2D" parent="KinematicBody2D"]
+visible = false
 polygon = PoolVector2Array( -20.5756, -18.2444, -20.4968, -10.5274, -21.5205, -9.81871, -21.4417, -5.88145, 1.86679, 5.2216, 19.112, -2.96789, 21.4743, -6.74765, 18.4033, -9.42498, 16.9071, -11.4724, 10.45, -15.3309, 10.2138, -17.3782, -4.82654, -24.859 )
+
+[node name="left-lower" type="CollisionPolygon2D" parent="KinematicBody2D"]
+visible = false
+scale = Vector2( -1, 1 )
+polygon = PoolVector2Array( -20.5756, -18.2444, -20.4968, -10.5274, -21.5205, -9.81871, -21.4417, -5.88145, 1.86679, 5.2216, 19.112, -2.96789, 21.4743, -6.74765, 18.4033, -9.42498, 16.9071, -11.4724, 10.45, -15.3309, 10.2138, -17.3782, -4.82654, -24.859 )
+disabled = true
+
+[node name="left-upper" type="CollisionPolygon2D" parent="KinematicBody2D"]
+visible = false
+polygon = PoolVector2Array( -15.3117, -25.5913, -18.2253, -23.3077, -18.2253, -19.6854, -12.0044, -16.7719, -12.0832, -14.882, -14.6818, -13.3858, -20.0364, -8.34615, -19.6427, -3.85769, -18.6978, -3.46396, -16.7292, 1.65447, -13.5793, -1.2591, -2.08257, 4.48929, 0.909744, 10.2377, 3.19335, 6.61541, 16.895, 0.86702, 17.9187, 3.07188, 19.7298, -0.550392, 21.8559, -2.51902, 21.7772, -6.14129, 11.4616, -14.4883, -2.63379, -22.8352, -6.57104, -22.0478 )
+
+[node name="right-upper" type="CollisionPolygon2D" parent="KinematicBody2D"]
+visible = false
+scale = Vector2( -1, 1 )
+polygon = PoolVector2Array( -15.3117, -25.5913, -18.2253, -23.3077, -18.2253, -19.6854, -12.0044, -16.7719, -12.0832, -14.882, -14.6818, -13.3858, -20.0364, -8.34615, -19.6427, -3.85769, -18.6978, -3.46396, -16.7292, 1.65447, -13.5793, -1.2591, -2.08257, 4.48929, 0.909744, 10.2377, 3.19335, 6.61541, 16.895, 0.86702, 17.9187, 3.07188, 19.7298, -0.550392, 21.8559, -2.51902, 21.7772, -6.14129, 11.4616, -14.4883, -2.63379, -22.8352, -6.57104, -22.0478 )
+
+[node name="Tween" type="Tween" parent="."]
 [connection signal="input_event" from="KinematicBody2D" to="." method="_on_KinematicBody2D_input_event"]
