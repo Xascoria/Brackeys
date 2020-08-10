@@ -68,3 +68,38 @@ func on_hit(duration):
 	$Tween.interpolate_property(self, "modulate:g", 0, 1, duration/3, 0, 2, duration*2/3)
 	$Tween.interpolate_property(self, "modulate:b", 0, 1, duration/3, 0, 2, duration*2/3)
 	$Tween.start()
+
+
+func start_walking(direction, facing, duration):
+	$WalkingTimer.wait_time = duration
+	if facing == "down":
+		$Sprite.visible = false
+		$WalkingAnimation.visible = true
+		if direction == "right":
+			$WalkingAnimation.scale.x = 1
+		else:
+			$WalkingAnimation.scale.x = -1
+	$WalkingAnimation.play()
+	$WalkingTimer.start()
+
+func _on_WalkingTimer_timeout():
+	$WalkingAnimation.stop()
+	$WalkingAnimation.visible = false
+	$Sprite.visible = true
+
+func start_blasting(direction, facing, duration):
+	$ShootingTimer.wait_time = duration
+	if facing == "down":
+		$Sprite.visible = false
+		$ShootingAnimation.visible = true
+		if direction == "right":
+			$ShootingAnimation.scale.x = 1
+		else:
+			$ShootingAnimation.scale.x = -1
+		$ShootingAnimation.play()
+		$ShootingTimer.start()
+
+func _on_ShootingTimer_timeout():
+	$ShootingAnimation.stop()
+	$ShootingAnimation.visible = false
+	$Sprite.visible = true

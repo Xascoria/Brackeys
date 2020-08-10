@@ -1,7 +1,81 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://2Units/EnemySoldier.gd" type="Script" id=1]
 [ext_resource path="res://2Resources/EUnit.png" type="Texture" id=2]
+[ext_resource path="res://2Resources/EUR.png" type="Texture" id=3]
+[ext_resource path="res://2Resources/EUS.png" type="Texture" id=4]
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 39, 39 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 3 )
+region = Rect2( 39, 0, 39, 39 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 3 )
+region = Rect2( 78, 0, 39, 39 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 39, 39, 39 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 3 )
+region = Rect2( 39, 39, 39, 39 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 3 )
+region = Rect2( 78, 39, 39, 39 )
+
+[sub_resource type="SpriteFrames" id=7]
+animations = [ {
+"frames": [ SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ) ],
+"loop": true,
+"name": "default",
+"speed": 8.0
+} ]
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 38, 38 )
+
+[sub_resource type="AtlasTexture" id=15]
+atlas = ExtResource( 4 )
+region = Rect2( 38, 0, 38, 38 )
+
+[sub_resource type="AtlasTexture" id=16]
+atlas = ExtResource( 4 )
+region = Rect2( 76, 0, 38, 38 )
+
+[sub_resource type="AtlasTexture" id=17]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 38, 38, 38 )
+
+[sub_resource type="AtlasTexture" id=18]
+atlas = ExtResource( 4 )
+region = Rect2( 38, 38, 38, 38 )
+
+[sub_resource type="AtlasTexture" id=19]
+atlas = ExtResource( 4 )
+region = Rect2( 76, 38, 38, 38 )
+
+[sub_resource type="AtlasTexture" id=20]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 76, 38, 38 )
+
+[sub_resource type="AtlasTexture" id=21]
+atlas = ExtResource( 4 )
+region = Rect2( 38, 76, 38, 38 )
+
+[sub_resource type="SpriteFrames" id=22]
+animations = [ {
+"frames": [ SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ) ],
+"loop": true,
+"name": "default",
+"speed": 8.0
+} ]
 
 [node name="Root" type="Node2D"]
 script = ExtResource( 1 )
@@ -34,4 +108,22 @@ scale = Vector2( -1, 1 )
 polygon = PoolVector2Array( -5.875, -29.125, -5.75, -22, -8.75, -16.625, -8.625, -13.75, -4.75, -12.875, -5, 0.75, -6.125, 1.625, -5.75, 3.75, 1.25, 4.625, 4.625, 2, 4.5, -15.125, 5.875, -15.25, 5.5, -18.625, 7.25, -19.625, 6.625, -23.75, 4.75, -25.125, 4.875, -30.5, 2.5, -32.5, -2.75, -32.25 )
 
 [node name="Tween" type="Tween" parent="."]
+
+[node name="WalkingAnimation" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( -1.04056, -13.8245 )
+frames = SubResource( 7 )
+
+[node name="WalkingTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="ShootingAnimation" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( -1.05946, -14.1703 )
+frames = SubResource( 22 )
+
+[node name="ShootingTimer" type="Timer" parent="."]
+one_shot = true
 [connection signal="input_event" from="KinematicBody2D" to="." method="_on_KinematicBody2D_input_event"]
+[connection signal="timeout" from="WalkingTimer" to="." method="_on_WalkingTimer_timeout"]
+[connection signal="timeout" from="ShootingTimer" to="." method="_on_ShootingTimer_timeout"]

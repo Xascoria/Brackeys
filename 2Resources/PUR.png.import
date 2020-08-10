@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/shockwave.png-b60a1eb0a538e25a3d578209fe6e1d9b.stex"
+path="res://.import/PUR.png-4910b86ac6b7af747429752d70bc5e59.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://2Resources/shockwave.png"
-dest_files=[ "res://.import/shockwave.png-b60a1eb0a538e25a3d578209fe6e1d9b.stex" ]
+source_file="res://2Resources/PUR.png"
+dest_files=[ "res://.import/PUR.png-4910b86ac6b7af747429752d70bc5e59.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=true
+flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

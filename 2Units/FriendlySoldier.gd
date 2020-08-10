@@ -102,3 +102,37 @@ func _on_AnimatedSprite_animation_finished():
 		$deadsprite.visible = true
 	$AnimatedSprite.stop()
 	$AnimatedSprite.visible = false
+
+func start_walking(direction, facing, duration):
+	$WalkingTimer.wait_time = duration
+	if facing == "down":
+		$Sprite.visible = false
+		$WalkingAnimation.visible = true
+		if direction == "right":
+			$WalkingAnimation.scale.x = -1
+		else:
+			$WalkingAnimation.scale.x = 1
+	$WalkingAnimation.play()
+	$WalkingTimer.start()
+
+func _on_WalkingTimer_timeout():
+	$WalkingAnimation.stop()
+	$WalkingAnimation.visible = false
+	$Sprite.visible = true
+
+func start_blasting(direction, facing, duration):
+	$ShootingTimer.wait_time = duration
+	if facing == "down":
+		$Sprite.visible = false
+		$ShootingAnimation.visible = true
+		if direction == "right":
+			$ShootingAnimation.scale.x = -1
+		else:
+			$ShootingAnimation.scale.x = 1
+		$ShootingAnimation.play()
+		$ShootingTimer.start()
+
+func _on_ShootingTimer_timeout():
+	$ShootingAnimation.stop()
+	$ShootingAnimation.visible = false
+	$Sprite.visible = true

@@ -93,3 +93,20 @@ func _on_Timer_timeout():
 	else:
 		$Sprite.visible = false
 		$deadsprite.visible = true
+
+func start_blasting(direction, facing, duration):
+	$ShootingTimer.wait_time = duration
+	if facing == "down":
+		$Sprite.visible = false
+		$ShootingAnime.visible = true
+		if direction == "right":
+			$ShootingAnime.scale.x = -1
+		else:
+			$ShootingAnime.scale.x = 1
+		$ShootingAnime.play()
+		$ShootingTimer.start()
+
+func _on_ShootingTimer_timeout():
+	$ShootingAnime.stop()
+	$ShootingAnime.visible = false
+	$Sprite.visible = true

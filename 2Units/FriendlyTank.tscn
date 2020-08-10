@@ -1,8 +1,37 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://2Units/FriendlyTank.gd" type="Script" id=1]
 [ext_resource path="res://2Resources/PTank.png" type="Texture" id=2]
 [ext_resource path="res://2Resources/PTD.png" type="Texture" id=3]
+[ext_resource path="res://2Resources/PTF.png" type="Texture" id=4]
+
+[sub_resource type="AtlasTexture" id=1]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 51, 51 )
+
+[sub_resource type="AtlasTexture" id=2]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 51, 0, 51, 51 )
+
+[sub_resource type="AtlasTexture" id=3]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 0, 51, 51, 51 )
+
+[sub_resource type="AtlasTexture" id=4]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 51, 51, 51, 51 )
+
+[sub_resource type="SpriteFrames" id=5]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
+"loop": true,
+"name": "default",
+"speed": 8.0
+} ]
 
 [node name="Root" type="Node2D"]
 script = ExtResource( 1 )
@@ -32,6 +61,7 @@ visible = false
 polygon = PoolVector2Array( -5.5688, -21.5548, -13.4737, -14.7117, -21.6147, -10.3463, -21.6147, -6.57076, -20.4348, -4.68301, -19.7269, -0.435577, -2.50121, 9.82906, 0.802353, 8.41325, 16.0223, 1.33419, 22.0395, -7.98657, 10.713, -15.5376, 19.6798, -19.1951, 19.9158, -23.6785, 16.7302, -27.218, 4.57785, -20.2569 )
 
 [node name="left-upper" type="CollisionPolygon2D" parent="KinematicBody2D"]
+visible = false
 scale = Vector2( -1, 1 )
 polygon = PoolVector2Array( -5.5688, -21.5548, -13.4737, -14.7117, -21.6147, -10.3463, -21.6147, -6.57076, -20.4348, -4.68301, -19.7269, -0.435577, -2.50121, 9.82906, 0.802353, 8.41325, 16.0223, 1.33419, 22.0395, -7.98657, 10.713, -15.5376, 19.6798, -19.1951, 19.9158, -23.6785, 16.7302, -27.218, 4.57785, -20.2569 )
 
@@ -44,5 +74,15 @@ texture = ExtResource( 3 )
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
+
+[node name="ShootingAnime" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( -2.43474, -7.11696 )
+frames = SubResource( 5 )
+frame = 4
+
+[node name="ShootingTimer" type="Timer" parent="."]
+one_shot = true
 [connection signal="input_event" from="KinematicBody2D" to="." method="_on_KinematicBody2D_input_event"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="ShootingTimer" to="." method="_on_ShootingTimer_timeout"]

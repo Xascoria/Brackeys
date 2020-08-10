@@ -208,6 +208,10 @@ func execute_turn(this_turn_info):
 			new_exp.position = Vector2(calculate_pos(target_pos)+Vector2(0,-5))
 			new_exp.play_reversed_exp()
 			
+			
+		
+			this_turn_info[4].start_blasting(direction, facing, 1.2)
+			
 			if this_turn_info[3] == "soldier":
 				if units_matrix[target_pos[1]][target_pos[0]]:
 					if not units_matrix[target_pos[1]][target_pos[0]] in building_list:
@@ -271,6 +275,8 @@ func execute_turn(this_turn_info):
 			else:
 				facing = "down"
 			this_turn_info[4].flip_to_direction(direction, facing)
+			if this_turn_info[4].type == "soldier":
+				this_turn_info[4].start_walking(direction, facing, 1.2)
 			
 			
 			if units_matrix[target_pos[1]][target_pos[0]]:
@@ -340,6 +346,8 @@ func rewind_turn(turn_content):
 			new_exp.play_normal_exp()
 			
 			
+			turn_content[4].start_blasting(direction, facing, 0.6)
+			
 			if turn_content[3] == "soldier":
 				if units_matrix[target_pos[1]][target_pos[0]]:
 					if not units_matrix[target_pos[1]][target_pos[0]] in building_list:
@@ -396,6 +404,9 @@ func rewind_turn(turn_content):
 			else:
 				facing = "down"
 			turn_content[4].flip_to_direction(direction, facing)
+			
+			if turn_content[4].type == "soldier":
+				turn_content[4].start_walking(direction, facing, 0.6)
 			
 			target_pos = node_pos - turn_content[1]
 			$Tween.interpolate_property(turn_content[4], "position", turn_content[4].position, calculate_pos(target_pos), 0.6)

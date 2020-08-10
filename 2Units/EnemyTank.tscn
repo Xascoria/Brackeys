@@ -1,7 +1,32 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://2Units/EnemyTank.gd" type="Script" id=1]
 [ext_resource path="res://2Resources/ETank.png" type="Texture" id=2]
+[ext_resource path="res://2Resources/ETF.png" type="Texture" id=3]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 51, 51 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 3 )
+region = Rect2( 51, 0, 51, 51 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 51, 51, 51 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 3 )
+region = Rect2( 51, 51, 51, 51 )
+
+[sub_resource type="SpriteFrames" id=5]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
+"loop": true,
+"name": "default",
+"speed": 10.0
+} ]
 
 [node name="Root" type="Node2D"]
 script = ExtResource( 1 )
@@ -35,4 +60,13 @@ scale = Vector2( -1, 1 )
 polygon = PoolVector2Array( -15.3117, -25.5913, -18.2253, -23.3077, -18.2253, -19.6854, -12.0044, -16.7719, -12.0832, -14.882, -14.6818, -13.3858, -20.0364, -8.34615, -19.6427, -3.85769, -18.6978, -3.46396, -16.7292, 1.65447, -13.5793, -1.2591, -2.08257, 4.48929, 0.909744, 10.2377, 3.19335, 6.61541, 16.895, 0.86702, 17.9187, 3.07188, 19.7298, -0.550392, 21.8559, -2.51902, 21.7772, -6.14129, 11.4616, -14.4883, -2.63379, -22.8352, -6.57104, -22.0478 )
 
 [node name="Tween" type="Tween" parent="."]
+
+[node name="ShootingAnime" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( -1.29783, -9.91068 )
+frames = SubResource( 5 )
+
+[node name="ShootingTimer" type="Timer" parent="."]
+one_shot = true
 [connection signal="input_event" from="KinematicBody2D" to="." method="_on_KinematicBody2D_input_event"]
+[connection signal="timeout" from="ShootingTimer" to="." method="_on_ShootingTimer_timeout"]
